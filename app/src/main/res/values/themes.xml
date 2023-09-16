@@ -2,6 +2,21 @@
 <resources>
 
     <style name="Theme.MusicPlayer" parent="android:Theme.Material.Light.NoActionBar">
-        <item name="android:statusBarColor">@color/purple_700</item>
+        <item name="android:statusBarColor">@color/eerie_black</item>
+
     </style>
+
+    <style name="Theme.App.Starting" parent="Theme.SplashScreen">
+        <!-- Set the splash screen background, animated icon, and animation duration. -->
+        <item name="windowSplashScreenBackground">@color/eerie_black</item>
+
+        <!-- Required for animated icons -->
+        <item name="windowSplashScreenAnimatedIcon">@drawable/transparent_image </item>
+        <item name="windowSplashScreenAnimationDuration">200</item>
+
+        <!-- Set the theme of the Activity that directly follows your splash screen. -->
+        <!-- Required -->
+        <item name="postSplashScreenTheme">@style/Theme.MusicPlayer</item>
+    </style>
+
 </resources>

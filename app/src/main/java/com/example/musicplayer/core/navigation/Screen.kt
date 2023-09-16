@@ -1,0 +1,10 @@
+package com.example.musicplayer.core.navigation
+
+import androidx.annotation.StringRes
+import com.example.musicplayer.R
+
+sealed class Screen(val route: String, @StringRes val resourceId: Int) {
+    object SplashScreen : Screen("splash_screen", R.string.splash_screen)
+    object SongListScreen : Screen("song_list_screen", R.string.song_list_screen)
+    object PlaySongScreen : Screen("play_song_screen", R.string.play_song_screen)
+}
