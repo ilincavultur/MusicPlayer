@@ -9,3 +9,6 @@ val Teal200 = Color(0xFF03DAC5)
 
 val PurpleAccent = Color(0xFFC1006D)
 val EerieBlack = Color(0xFF262626)
+val EerieBlackMedium = Color(0xFF6B6B6B)
+val EerieBlackLight = Color(0xFFA2A2A2)
+val EerieBlackLightTransparent = Color(0x86A2A2A2)

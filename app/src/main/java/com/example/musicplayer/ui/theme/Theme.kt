@@ -24,8 +24,9 @@ private val LightColorPalette = lightColors(
     secondary = PurpleAccent,
     background = EerieBlack,
     surface = EerieBlack,
+    onSurface = PurpleAccent,
     onBackground = PurpleAccent,
-    onPrimary = EerieBlack,
+    onPrimary = PurpleAccent,
 
 
     /* Other default colors to override

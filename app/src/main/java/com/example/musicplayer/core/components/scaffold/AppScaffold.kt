@@ -28,6 +28,7 @@ import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.musicplayer.core.components.cards.CurrentlyPlayingBar
 import com.example.musicplayer.core.navigation.Navigation
 import com.example.musicplayer.core.navigation.Screen
 import com.example.musicplayer.ui.theme.EerieBlack
@@ -52,7 +53,9 @@ fun AppScaffold(
         },
         scaffoldState = scaffoldState,
         bottomBar = {
-
+            CurrentlyPlayingBar(Modifier, onClick = {
+                dest -> navController.navigate(dest)
+            })
         },
     ) { innerPadding ->
         Navigation(navController = navController, innerPadding = innerPadding, snackbarHostState = snackbarHost.snackbarHostState)

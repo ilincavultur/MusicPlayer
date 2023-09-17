@@ -1,5 +1,6 @@
 package com.example.musicplayer.core.navigation
 
+import androidx.annotation.IntegerRes
 import androidx.annotation.StringRes
 import com.example.musicplayer.R
 
