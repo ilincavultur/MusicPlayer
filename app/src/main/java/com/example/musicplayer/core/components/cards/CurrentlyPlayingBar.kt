@@ -33,7 +33,7 @@ fun CurrentlyPlayingBar(
             .background(color = EerieBlackMedium)
             .fillMaxWidth()
             .height(70.dp)
-            .padding(15.dp)
+            .padding(10.dp)
             .clickable {
                 onClick(Screen.PlaySongScreen.route)
             }
@@ -70,7 +70,7 @@ fun CurrentlyPlayingBar(
                         painter = painterResource(id = R.drawable.ic_launcher_background),
                         contentDescription ="",
                         modifier = Modifier
-                            .size(45.dp)
+                            .size(60.dp)
                             .clip(RoundedCornerShape(10.dp))
                     )
                     Spacer(modifier = Modifier.size(10.dp))
@@ -79,8 +79,8 @@ fun CurrentlyPlayingBar(
                             .fillMaxHeight(),
                         verticalArrangement = Arrangement.Center
                     ) {
-                        SongTitleText(text = "text", fontSize = 15.sp)
-                        SongArtistText(text = "text", fontSize = 10.sp)
+                        SongTitleText(text = "text", fontSize = 20.sp)
+                        SongArtistText(text = "text", fontSize = 15.sp)
                     }
 
                 }

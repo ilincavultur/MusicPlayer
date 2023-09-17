@@ -41,6 +41,7 @@ fun AppScaffold(
     val navController = rememberNavController()
     val scaffoldState = rememberScaffoldState()
     val snackbarHost = rememberScaffoldState()
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
 
     Scaffold(
         drawerBackgroundColor = EerieBlack,
@@ -53,9 +54,13 @@ fun AppScaffold(
         },
         scaffoldState = scaffoldState,
         bottomBar = {
-            CurrentlyPlayingBar(Modifier, onClick = {
-                dest -> navController.navigate(dest)
-            })
+            if (navBackStackEntry?.destination?.route !in listOf(
+                    Screen.SplashScreen.route,
+                )) {
+                CurrentlyPlayingBar(Modifier, onClick = {
+                        dest -> navController.navigate(dest)
+                })
+            }
         },
     ) { innerPadding ->
         Navigation(navController = navController, innerPadding = innerPadding, snackbarHostState = snackbarHost.snackbarHostState)

@@ -29,7 +29,7 @@ fun Navigation(
         }
 
         composable(route = Screen.PlaySongScreen.route) {
-            PlaySongScreen(navController = navController)
+            PlaySongScreen(navController = navController, onClick = { dest -> navController.navigate(dest) })
         }
 
     }
