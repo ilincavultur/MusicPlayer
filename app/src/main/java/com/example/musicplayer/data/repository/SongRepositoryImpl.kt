@@ -38,9 +38,9 @@ class SongRepositoryImpl @Inject constructor(
 
         try {
             val remoteSongs = firestoreSongsDb.getRemoteSongs()
-            remoteSongs.forEach {
-                println("song id: " + it.mediaId)
-            }
+//            remoteSongs.forEach {
+//                println("song id: " + it.mediaId)
+//            }
             dao.deleteSongs(remoteSongs.map {
                 it.mediaId?.toInt() ?: 0
             })

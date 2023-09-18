@@ -55,7 +55,7 @@ fun SongListScreen(
                         .background(color = EerieBlack)
                 ) {
                     items(state.songs) { song ->
-                        SongListCard(song.title.toString(), modifier = Modifier.fillMaxSize())
+                        SongListCard(song, modifier = Modifier.fillMaxSize())
                         Divider(color = EerieBlackLightTransparent)
                     }
                 }

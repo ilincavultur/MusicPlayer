@@ -1,5 +1,6 @@
 package com.example.musicplayer.data.local.entity
 
+import android.graphics.BitmapFactory
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.example.musicplayer.domain.models.Song
