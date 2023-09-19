@@ -1,6 +1,13 @@
 package com.example.musicplayer.di
 
 import android.content.Context
+import androidx.media3.common.AudioAttributes
+
+import androidx.media3.common.C
+import androidx.media3.common.C.CONTENT_TYPE_MOVIE
+import androidx.media3.common.util.UnstableApi
+import androidx.media3.exoplayer.ExoPlayer
+import androidx.media3.exoplayer.trackselection.DefaultTrackSelector
 import androidx.room.Room
 import com.example.musicplayer.data.local.SongDao
 import com.example.musicplayer.data.local.db.RoomSongsDb
@@ -58,4 +65,24 @@ object SongModule {
             getSongs = GetSongsUsecase(repository)
         )
     }
+
+    @Provides
+    @Singleton
+    fun provideAudioAttributes(): AudioAttributes = AudioAttributes.Builder()
+        .setContentType(C.AUDIO_CONTENT_TYPE_MOVIE)
+        .setUsage(C.USAGE_MEDIA)
+        .build()
+
+    @ServiceScoped
+    @Provides
+    @UnstableApi
+    fun provideExoPlayer(
+        @ApplicationContext context: Context,
+        audioAttributes: AudioAttributes
+    ) = ExoPlayer.Builder(context)
+        .setAudioAttributes(audioAttributes, true)
+        .setHandleAudioBecomingNoisy(true)
+        .setTrackSelector(DefaultTrackSelector(context))
+        .build()
+
 }

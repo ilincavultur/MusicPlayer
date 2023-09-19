@@ -57,7 +57,7 @@ fun SongListCard(
                 modifier = modifier
                     .fillMaxSize()
                     .clickable {
-                               
+
                     },
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
