@@ -56,7 +56,7 @@ fun AppScaffold(
         bottomBar = {
             if (navBackStackEntry?.destination?.route !in listOf(
                     Screen.SplashScreen.route,
-                )) {
+                )) { // && selectedTrack != null
                 CurrentlyPlayingBar(Modifier, onClick = {
                         dest -> navController.navigate(dest)
                 })

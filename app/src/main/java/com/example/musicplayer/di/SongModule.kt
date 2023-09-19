@@ -1,18 +1,22 @@
 package com.example.musicplayer.di
 
+import android.app.PendingIntent
 import android.content.Context
 import androidx.media3.common.AudioAttributes
 
 import androidx.media3.common.C
-import androidx.media3.common.C.CONTENT_TYPE_MOVIE
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.exoplayer.trackselection.DefaultTrackSelector
+import androidx.media3.session.MediaSession
 import androidx.room.Room
 import com.example.musicplayer.data.local.SongDao
 import com.example.musicplayer.data.local.db.RoomSongsDb
 import com.example.musicplayer.data.remote.db.FirestoreSongsDb
 import com.example.musicplayer.data.repository.SongRepositoryImpl
+import com.example.musicplayer.domain.exoplayer.PlayerEventListener
+import com.example.musicplayer.domain.notification.MusicNotificationAdapter
+import com.example.musicplayer.domain.notification.MusicNotificationManager
 import com.example.musicplayer.domain.repository.SongRepository
 import com.example.musicplayer.domain.usecases.GetSongsUsecase
 import com.example.musicplayer.domain.usecases.SongUsecases
@@ -84,5 +88,27 @@ object SongModule {
         .setHandleAudioBecomingNoisy(true)
         .setTrackSelector(DefaultTrackSelector(context))
         .build()
+
+    @Provides
+    @Singleton
+    fun provideMediaSession(
+        @ApplicationContext context: Context,
+        player: ExoPlayer,
+    ): MediaSession = MediaSession.Builder(context, player).build()
+
+    @Provides
+    @Singleton
+    fun provideNotificationManager(
+        @ApplicationContext context: Context,
+        player: ExoPlayer,
+    ): MusicNotificationManager = MusicNotificationManager(
+        context = context,
+        exoPlayer = player
+    )
+
+    @Provides
+    @Singleton
+    fun providePlayerListener(exoPlayer: ExoPlayer): PlayerEventListener =
+        PlayerEventListener(exoPlayer)
 
 }

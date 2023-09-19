@@ -1,33 +1,65 @@
 package com.example.musicplayer.domain.exoplayer
 
 import android.content.Intent
-import androidx.media3.exoplayer.ExoPlayer
+import android.os.Build
+import androidx.annotation.RequiresApi
+import androidx.media3.common.util.UnstableApi
 import androidx.media3.session.MediaSession
 import androidx.media3.session.MediaSessionService
+import javax.inject.Inject
 
 
 class MusicService : MediaSessionService() {
-    private var mediaSession: MediaSession? = null
-    var player: ExoPlayer = ExoPlayer.Builder(this).build()
 
-    override fun onCreate() {
-        super.onCreate()
-        mediaSession = MediaSession.Builder(this, player).build()
+    @Inject
+    lateinit var mediaSession: MediaSession
+
+    @Inject
+    lateinit var notificationManager: com.example.musicplayer.domain.notification.MusicNotificationManager
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    @UnstableApi
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        when (intent?.action) {
+            ACTION_START -> start()
+            ACTION_STOP -> stop()
+        }
+        return super.onStartCommand(intent, flags, startId)
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    @UnstableApi
+    private fun start() {
+        notificationManager.startNotificationService(
+            mediaSessionService = this,
+            mediaSession =  mediaSession
+        )
+    }
+
+    @RequiresApi(Build.VERSION_CODES.N)
+    private fun stop() {
+        notificationManager.stopNotificationService(
+            mediaSessionService = this
+        )
     }
 
     override fun onDestroy() {
-        mediaSession?.run {
+        mediaSession.run {
+//            if (player.playbackState != Player.STATE_IDLE) {
+//                player.seekTo(0)
+//                player.playWhenReady = false
+//                player.stop()
+//            }
             player.release()
             release()
-            mediaSession = null
         }
         super.onDestroy()
     }
 
-    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        player.prepare()
-        return super.onStartCommand(intent, flags, startId)
-    }
-
     override fun onGetSession(controllerInfo: MediaSession.ControllerInfo): MediaSession? = mediaSession
+
+    companion object {
+        const val ACTION_START = "ACTION_START"
+        const val ACTION_STOP = "ACTION_STOP"
+    }
 }

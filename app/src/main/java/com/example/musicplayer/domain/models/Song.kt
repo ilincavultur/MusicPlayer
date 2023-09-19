@@ -9,7 +9,8 @@ data class Song(
     val artist: String? = "",
     val coverUrl: String? = "",
     val songCover: String? = "",
-    val songUrl: String? = ""
+    val songUrl: String? = "",
+    val duration: Int? = 0
 )
 
 fun Song.toSongEntity() : SongEntity {
@@ -19,6 +20,7 @@ fun Song.toSongEntity() : SongEntity {
         fileName = fileName,
         artist = artist,
         coverUrl = coverUrl,
-        songUrl = songUrl
+        songUrl = songUrl,
+        duration = duration
     )
 }
