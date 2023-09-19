@@ -20,7 +20,7 @@ data class HomeState(
     var progress: Float = 0f,
     var progressString: String = "00:00",
     var isPlaying: Boolean = false,
-    var currentlySelectedSong: Song = songTest
+    var currentlySelectedSong: Song? = null
 )
 
 sealed class HomeUiState {

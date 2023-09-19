@@ -47,7 +47,8 @@ import com.example.musicplayer.ui.theme.PurpleAccent
 @Composable
 fun SongListCard(
     song: Song,
-    modifier: Modifier
+    modifier: Modifier,
+    onSongCardClick: (Int) -> Unit
 ) {
         Box(
             modifier = modifier.background(color = EerieBlack).padding(15.dp).size(75.dp),
@@ -57,7 +58,9 @@ fun SongListCard(
                 modifier = modifier
                     .fillMaxSize()
                     .clickable {
-
+                        song.mediaId?.let {
+                            onSongCardClick(it.toInt())
+                        }
                     },
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {

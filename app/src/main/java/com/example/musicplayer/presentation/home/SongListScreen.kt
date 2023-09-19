@@ -4,18 +4,21 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Divider
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.example.musicplayer.core.components.cards.CurrentlyPlayingBar
 import com.example.musicplayer.core.components.cards.SongListCard
+import com.example.musicplayer.core.navigation.Navigation
+import com.example.musicplayer.core.navigation.Screen
+import com.example.musicplayer.presentation.home.HomeUiEvent
+import com.example.musicplayer.presentation.home.HomeUiState
 import com.example.musicplayer.presentation.home.HomeViewModel
 import com.example.musicplayer.ui.theme.EerieBlack
 import com.example.musicplayer.ui.theme.EerieBlackLight
@@ -49,16 +52,31 @@ fun SongListScreen(
                 }
             }
             false -> {
-                LazyColumn(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .background(color = EerieBlack)
+                androidx.compose.material.Scaffold(
+                    bottomBar = {
+                        if (state.currentlySelectedSong != null) { // && selectedTrack != null
+                            CurrentlyPlayingBar(Modifier, onClick = {
+                                    dest -> navController.navigate(dest)
+                            })
+                        }
+                    }
                 ) {
-                    items(state.songs) { song ->
-                        SongListCard(song, modifier = Modifier.fillMaxSize())
-                        Divider(color = EerieBlackLightTransparent)
+                    LazyColumn(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .background(color = EerieBlack)
+                            .padding(it)
+                    ) {
+                        items(state.songs) { song ->
+                            SongListCard(song, modifier = Modifier.fillMaxSize(), onSongCardClick = {
+                                viewModel.onEvent(HomeUiEvent.SelectAudio(it-1))
+                                viewModel.onEvent(HomeUiEvent.PlayPause)
+                            })
+                            Divider(color = EerieBlackLightTransparent)
+                        }
                     }
                 }
+
             }
         }
     }

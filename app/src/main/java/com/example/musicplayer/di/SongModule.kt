@@ -77,8 +77,8 @@ object SongModule {
         .setUsage(C.USAGE_MEDIA)
         .build()
 
-    @ServiceScoped
     @Provides
+    @Singleton
     @UnstableApi
     fun provideExoPlayer(
         @ApplicationContext context: Context,
