@@ -49,7 +49,7 @@ fun SongListCard(
     song: Song,
     index: Int,
     modifier: Modifier,
-    onSongCardClick: (Int) -> Unit
+    onSongCardClick: () -> Unit
 ) {
         Box(
             modifier = modifier.background(color = EerieBlack).padding(15.dp).size(75.dp),
@@ -59,7 +59,7 @@ fun SongListCard(
                 modifier = modifier
                     .fillMaxSize()
                     .clickable {
-                        onSongCardClick(index)
+                        onSongCardClick()
                     },
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {

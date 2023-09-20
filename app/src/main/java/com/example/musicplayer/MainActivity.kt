@@ -40,7 +40,7 @@ class MainActivity : ComponentActivity() {
         val controllerFuture = MediaController.Builder(this, sessionToken).buildAsync()
         controllerFuture.addListener(
             {
-                
+
                 // Call controllerFuture.get() to retrieve the MediaController.
                 // MediaController implements the Player interface, so it can be
                 // attached to the PlayerView UI component.

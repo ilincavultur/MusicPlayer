@@ -73,11 +73,18 @@ fun SongListScreen(
                             .padding(it)
                     ) {
                         itemsIndexed(state.songs) { index, song ->
-                            SongListCard(song, modifier = Modifier.fillMaxSize(), index = index, onSongCardClick = { idx ->
-                                    viewModel.onEvent(HomeUiEvent.SelectAudio(idx))
-                                    //viewModel.onEvent(HomeUiEvent.PlayPause)
+                            SongListCard(song, modifier = Modifier.fillMaxSize(), index = index, onSongCardClick = {
+                                println("index clicked " + index)
+                                viewModel.onEvent(HomeUiEvent.SelectAudio(index))
+                                //viewModel.onEvent(HomeUiEvent.PlayPause)
                             })
                             Divider(color = EerieBlackLightTransparent)
+                            /*
+                            { idx ->
+                                    viewModel.onEvent(HomeUiEvent.SelectAudio(idx))
+                                    //viewModel.onEvent(HomeUiEvent.PlayPause)
+                            }
+                             */
                         }
                     }
                 }
