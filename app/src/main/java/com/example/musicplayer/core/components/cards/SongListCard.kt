@@ -47,7 +47,6 @@ import com.example.musicplayer.ui.theme.PurpleAccent
 @Composable
 fun SongListCard(
     song: Song,
-    index: Int,
     modifier: Modifier,
     onSongCardClick: () -> Unit
 ) {
