@@ -97,8 +97,9 @@ class PlayerEventListener @Inject constructor(
                     }
                     else -> {
                         exoPlayer.seekToDefaultPosition()
+                        //_state.value =
                         _state.value = PlayerState.Playing(isPlaying = true)
-                        _state.value = PlayerState.CurrentlyPlaying(mediaItemIdx = event.selectedMediaIdx)
+                        //_state.value = PlayerState.CurrentlyPlaying(mediaItemIdx = event.selectedMediaIdx)
                         exoPlayer.playWhenReady = true
                         startProgressUpdate()
                     }

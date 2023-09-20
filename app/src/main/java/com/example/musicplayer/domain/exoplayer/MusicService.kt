@@ -3,6 +3,7 @@ package com.example.musicplayer.domain.exoplayer
 import android.content.Intent
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.media3.common.Player
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.session.MediaSession
 import androidx.media3.session.MediaSessionService
@@ -46,13 +47,13 @@ class MusicService : MediaSessionService() {
 
     override fun onDestroy() {
         mediaSession.run {
-//            if (player.playbackState != Player.STATE_IDLE) {
-//                player.seekTo(0)
-//                player.playWhenReady = false
-//                player.stop()
-//            }
             player.release()
             release()
+            if (player.playbackState != Player.STATE_IDLE) {
+                player.seekTo(0)
+                player.playWhenReady = false
+                player.stop()
+            }
         }
         super.onDestroy()
     }

@@ -19,6 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.musicplayer.R
 import com.example.musicplayer.core.navigation.Screen
+import com.example.musicplayer.domain.models.Song
 import com.example.musicplayer.ui.theme.EerieBlackLight
 import com.example.musicplayer.ui.theme.EerieBlackMedium
 
@@ -26,7 +27,8 @@ import com.example.musicplayer.ui.theme.EerieBlackMedium
 @Composable
 fun CurrentlyPlayingBar(
     modifier: Modifier,
-    onClick: (String) -> Unit
+    onClick: (String) -> Unit,
+    song: Song
 ) {
     Box(
         modifier = modifier
@@ -79,8 +81,8 @@ fun CurrentlyPlayingBar(
                             .fillMaxHeight(),
                         verticalArrangement = Arrangement.Center
                     ) {
-                        SongTitleText(text = "text", fontSize = 20.sp)
-                        SongArtistText(text = "text", fontSize = 15.sp)
+                        SongTitleText(text = song.title.toString(), fontSize = 20.sp)
+                        SongArtistText(text = song.artist.toString(), fontSize = 15.sp)
                     }
 
                 }

@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -54,10 +55,14 @@ fun SongListScreen(
             false -> {
                 androidx.compose.material.Scaffold(
                     bottomBar = {
-                        if (state.currentlySelectedSong != null) { // && selectedTrack != null
-                            CurrentlyPlayingBar(Modifier, onClick = {
-                                    dest -> navController.navigate(dest)
-                            })
+                        state.currentlySelectedSong?.let {
+                            CurrentlyPlayingBar(
+                                Modifier,
+                                onClick = {
+                                        dest -> navController.navigate(dest)
+                                },
+                                song = it
+                            )
                         }
                     }
                 ) {
@@ -67,10 +72,10 @@ fun SongListScreen(
                             .background(color = EerieBlack)
                             .padding(it)
                     ) {
-                        items(state.songs) { song ->
-                            SongListCard(song, modifier = Modifier.fillMaxSize(), onSongCardClick = {
-                                viewModel.onEvent(HomeUiEvent.SelectAudio(it-1))
-                                viewModel.onEvent(HomeUiEvent.PlayPause)
+                        itemsIndexed(state.songs) { index, song ->
+                            SongListCard(song, modifier = Modifier.fillMaxSize(), index = index, onSongCardClick = { idx ->
+                                    viewModel.onEvent(HomeUiEvent.SelectAudio(idx))
+                                    //viewModel.onEvent(HomeUiEvent.PlayPause)
                             })
                             Divider(color = EerieBlackLightTransparent)
                         }
