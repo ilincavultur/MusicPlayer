@@ -34,18 +34,19 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-//    override fun onStart() {
-//        super.onStart()
-//        val sessionToken = SessionToken(this, ComponentName(this, MusicService::class.java))
-//        val controllerFuture = MediaController.Builder(this, sessionToken).buildAsync()
-//        controllerFuture.addListener(
-//            {
-//                // Call controllerFuture.get() to retrieve the MediaController.
-//                // MediaController implements the Player interface, so it can be
-//                // attached to the PlayerView UI component.
-//                //playerView.setPlayer(controllerFuture.get())
-//            },
-//            MoreExecutors.directExecutor()
-//        )
-//    }
+    override fun onStart() {
+        super.onStart()
+        val sessionToken = SessionToken(this, ComponentName(this, MusicService::class.java))
+        val controllerFuture = MediaController.Builder(this, sessionToken).buildAsync()
+        controllerFuture.addListener(
+            {
+                
+                // Call controllerFuture.get() to retrieve the MediaController.
+                // MediaController implements the Player interface, so it can be
+                // attached to the PlayerView UI component.
+                //playerView.setPlayer(controllerFuture.get())
+            },
+            MoreExecutors.directExecutor()
+        )
+    }
 }
