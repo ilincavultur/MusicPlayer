@@ -107,12 +107,11 @@ fun SongFullScreen(
                        .padding(10.dp)
 
                ) {
-                   Column(
-
-                   ) {
-                       SongSlider()
-
-
+                   Column{
+                       println("Progress for Song:" )
+                       println(state.progress)
+                       println(state.progressString)
+                       SongSlider(progressString = state.progressString, progress = state.progress, totalTime = state.currentlySelectedSongString)
                    }
                }
 
@@ -136,12 +135,18 @@ fun SongCoverPreview(
 
 @Composable
 fun SongSlider(
-
+    progress: Float,
+    progressString: String,
+    totalTime: String
+    //viewModel: HomeViewModel = hiltViewModel()
 ) {
-    var sliderPosition by remember { mutableStateOf(0f) }
+    //val state = viewModel.state.value
+    //var progressString by remember { mutableStateOf(state.progressString) }
+     var sliderPosition by remember { mutableStateOf(0f) }
     Column {
         Slider(
             value = sliderPosition,
+            //value = progress / 100,
             onValueChange = { sliderPosition = it }
         )
         //Text(text = sliderPosition.toString())
@@ -150,10 +155,10 @@ fun SongSlider(
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
 
-                Text(text = "00:00", color = EerieBlackLight)
+                Text(text = "progressString", color = EerieBlackLight)
 
 
-                Text(text = "04:20", color = EerieBlackLight)
+                Text(text = "totalTime", color = EerieBlackLight)
 
         }
     }

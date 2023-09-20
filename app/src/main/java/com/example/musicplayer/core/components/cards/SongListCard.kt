@@ -31,11 +31,16 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.media3.exoplayer.ExoPlayer
 import coil.compose.AsyncImage
 import coil.compose.AsyncImagePainter
 import coil.compose.rememberAsyncImagePainter
 import coil.compose.rememberImagePainter
 import coil.request.ImageRequest
+import com.airbnb.lottie.compose.LottieAnimation
+import com.airbnb.lottie.compose.LottieCompositionSpec
+import com.airbnb.lottie.compose.animateLottieCompositionAsState
+import com.airbnb.lottie.compose.rememberLottieComposition
 import com.example.musicplayer.R
 import com.example.musicplayer.domain.models.Song
 import com.example.musicplayer.ui.theme.EerieBlack
@@ -48,7 +53,8 @@ import com.example.musicplayer.ui.theme.PurpleAccent
 fun SongListCard(
     song: Song,
     modifier: Modifier,
-    onSongCardClick: () -> Unit
+    onSongCardClick: () -> Unit,
+    isPlaying: Boolean
 ) {
         Box(
             modifier = modifier.background(color = EerieBlack).padding(15.dp).size(75.dp),
@@ -70,6 +76,22 @@ fun SongListCard(
                 ) {
                     SongTitleText(text = song.title.toString(), fontSize = 20.sp)
                     SongArtistText(text = song.artist.toString(), fontSize = 15.sp)
+                }
+                if (isPlaying) {
+                    val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.animation_lmro1qt2))
+                    val logoAnimationState = animateLottieCompositionAsState(composition = composition)
+                    Column(
+                        modifier = Modifier
+                            .fillMaxHeight(),
+                        verticalArrangement = Arrangement.Center
+                    ) {
+                        LottieAnimation(
+                            modifier = Modifier.size(60.dp),
+                            composition = composition,
+                            iterations = Int.MAX_VALUE,
+                            //progress = { logoAnimationState.progress }
+                        )
+                    }
                 }
                 Column(
                     modifier = Modifier

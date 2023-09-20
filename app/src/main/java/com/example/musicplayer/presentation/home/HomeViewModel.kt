@@ -14,10 +14,8 @@ import com.example.musicplayer.domain.exoplayer.PlayerEventListener
 import com.example.musicplayer.domain.exoplayer.PlayerState
 import com.example.musicplayer.domain.usecases.GetSongsUsecase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -51,11 +49,18 @@ class HomeViewModel @Inject constructor(
             playerEventListener.state.collectLatest { playerState ->
                 when (playerState) {
                     is PlayerState.Buffering -> {
-                        calculateProgressValue(playerState.progress)
+                        viewModelScope.launch {
+                            val newProgress = calculateProgressValue(playerState.progress)
+                            _state.value = state.value.copy(
+                                progress = newProgress,
+                                progressString = formatDuration(newProgress.toLong())
+                            )
+                        }
                     }
                     is PlayerState.CurrentlyPlaying -> {
                         _state.value = state.value.copy(
-                            currentlySelectedSong = state.value.songs[playerState.mediaItemIdx]
+                            currentlySelectedSong = state.value.songs[playerState.mediaItemIdx],
+                            //currentlySelectedSongString = formatDuration(state.value.songs[playerState.mediaItemIdx].duration?.toLong() ?: 0)
                         )
                     }
                     is PlayerState.Ended -> TODO()
@@ -69,7 +74,16 @@ class HomeViewModel @Inject constructor(
                         )
                     }
                     is PlayerState.Progress -> {
-                        calculateProgressValue(playerState.progress)
+                        viewModelScope.launch {
+                            val newProgress = calculateProgressValue(playerState.progress)
+                            val newProgressString = formatDuration(state.value.progress.toLong())
+                            withContext(Dispatchers.Main) {
+                                _state.value = state.value.copy(
+                                    progress = newProgress,
+                                    progressString = newProgressString
+                                )
+                            }
+                        }
                     }
                     is PlayerState.Ready -> {
                         _state.value = state.value.copy(
@@ -82,20 +96,14 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    private fun calculateProgressValue(progress: Long) {
-        _state.value = state.value.copy(
-            progress = if (progress > 0) ((progress.toFloat() / state.value.duration.toFloat()) * 100f)
-            else 0f
-        )
-
-        _state.value = state.value.copy(
-            progressString = formatDuration(progress)
-        )
+    private fun calculateProgressValue(progress: Long) : Float {
+        return if (progress > 0) ((progress.toFloat() / state.value.duration.toFloat())  * 100f)
+        else 0f
     }
 
     private fun formatDuration(duration: Long): String {
-        val minute = TimeUnit.MINUTES.convert(duration, TimeUnit.MILLISECONDS)
-        val seconds = (minute) - minute * TimeUnit.SECONDS.convert(1, TimeUnit.MINUTES)
+        val minute = duration / 60
+        val seconds = duration % 60
         return String.format("%02d:%02d", minute, seconds)
     }
 

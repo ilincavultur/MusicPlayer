@@ -54,6 +54,7 @@ class PlayerEventListener @Inject constructor(
     private suspend fun startProgressUpdate() = progressJob.run {
         while (true) {
             delay(500)
+            //println("exoPlayer.currentPosition " + exoPlayer.currentPosition)
             _state.value = PlayerState.Progress(exoPlayer.currentPosition)
         }
     }

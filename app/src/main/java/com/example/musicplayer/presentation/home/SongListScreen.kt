@@ -84,7 +84,7 @@ fun SongListScreen(
                         itemsIndexed(state.songs) { index, song ->
                             SongListCard(song, modifier = Modifier.fillMaxSize(), onSongCardClick = {
                                 viewModel.onEvent(HomeUiEvent.SelectAudio(index))
-                            })
+                            }, isPlaying = state.isPlaying)
                             Divider(color = EerieBlackLightTransparent)
                         }
                     }
