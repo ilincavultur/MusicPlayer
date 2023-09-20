@@ -69,7 +69,6 @@ fun SongListScreen(
                                     } else {
                                         com.example.musicplayer.R.drawable.ic_baseline_play_arrow_24
                                     }
-
                                 )
                             }
                         }

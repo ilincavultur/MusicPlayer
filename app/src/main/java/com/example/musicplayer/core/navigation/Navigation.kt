@@ -27,9 +27,5 @@ fun Navigation(
             SongListScreen(navController = navController)
         }
 
-//        composable(route = Screen.PlaySongScreen.route) {
-//            SongFullScreen(navController = navController, onClick = { dest -> navController.navigate(dest) })
-//        }
-
     }
 }

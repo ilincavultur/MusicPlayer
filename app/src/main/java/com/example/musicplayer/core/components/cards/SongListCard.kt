@@ -90,7 +90,6 @@ fun SongListCard(
                             modifier = Modifier.size(60.dp),
                             composition = composition,
                             iterations = Int.MAX_VALUE,
-                            //progress = { logoAnimationState.progress }
                         )
                     }
                 }

@@ -28,7 +28,6 @@ import com.example.musicplayer.ui.theme.EerieBlackLight
 
 @Composable
 fun SongFullScreen(
-    //navController: NavController,
     viewModel: HomeViewModel = hiltViewModel(),
     onClick: () -> Unit
 ) {

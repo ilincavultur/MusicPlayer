@@ -13,13 +13,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.musicplayer.R
 import com.example.musicplayer.ui.theme.EerieBlackLight
+import com.example.musicplayer.ui.theme.valeraRound
 
-val nunitoFamily = FontFamily(
-    Font(R.font.nunito_regular, FontWeight.Normal),
-    Font(R.font.nunito_semibold, FontWeight.SemiBold),
-    )
-val valeraRound = FontFamily(
-    Font(R.font.varelaround_regular, FontWeight.Normal),)
 
 @Composable
 fun SongTitleText(

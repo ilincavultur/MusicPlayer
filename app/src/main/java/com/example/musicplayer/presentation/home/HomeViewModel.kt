@@ -39,9 +39,6 @@ class HomeViewModel @Inject constructor(
 
     init {
         loadSongs()
-//        controller.addListener(
-//            playerEventListener
-//        )
     }
 
     init {
