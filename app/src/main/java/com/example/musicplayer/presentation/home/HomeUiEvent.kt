@@ -7,9 +7,12 @@ sealed class HomeUiEvent {
 
     data class SelectAudio(val selectedMediaIdx : Int  = -1) : HomeUiEvent()
     object PlayPause : HomeUiEvent()
+    object SkipToNext : HomeUiEvent()
+    object SkipToPrevious : HomeUiEvent()
     object Backward : HomeUiEvent()
     object Forward : HomeUiEvent()
     data class SeekTo(val seekPos: Long = 0) : HomeUiEvent()
     object Stop : HomeUiEvent()
     data class UpdateProgress(val updatedProgress: Float) : HomeUiEvent()
+    object ToggleFullScreenMode : HomeUiEvent()
 }

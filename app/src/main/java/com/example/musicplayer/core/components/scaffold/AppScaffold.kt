@@ -53,15 +53,6 @@ fun AppScaffold(
             SnackbarHost(hostState = snackbarHost.snackbarHostState)
         },
         scaffoldState = scaffoldState,
-//        bottomBar = {
-//            if (navBackStackEntry?.destination?.route !in listOf(
-//                    Screen.SplashScreen.route,
-//                )) { // && selectedTrack != null
-//                CurrentlyPlayingBar(Modifier, onClick = {
-//                        dest -> navController.navigate(dest)
-//                })
-//            }
-//        },
     ) { innerPadding ->
         Navigation(navController = navController, innerPadding = innerPadding, snackbarHostState = snackbarHost.snackbarHostState)
     }

@@ -27,7 +27,7 @@ import com.example.musicplayer.ui.theme.EerieBlackMedium
 @Composable
 fun CurrentlyPlayingBar(
     modifier: Modifier,
-    onClick: (String) -> Unit,
+    onClick: () -> Unit,
     song: Song
 ) {
     Box(
@@ -37,7 +37,7 @@ fun CurrentlyPlayingBar(
             .height(70.dp)
             .padding(10.dp)
             .clickable {
-                onClick(Screen.PlaySongScreen.route)
+                onClick()
             }
         ,
 

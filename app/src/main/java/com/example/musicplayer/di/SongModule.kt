@@ -1,6 +1,7 @@
 package com.example.musicplayer.di
 
 import android.app.PendingIntent
+import android.content.ComponentName
 import android.content.Context
 import androidx.media3.common.AudioAttributes
 
@@ -8,12 +9,15 @@ import androidx.media3.common.C
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.exoplayer.trackselection.DefaultTrackSelector
+import androidx.media3.session.MediaController
 import androidx.media3.session.MediaSession
+import androidx.media3.session.SessionToken
 import androidx.room.Room
 import com.example.musicplayer.data.local.SongDao
 import com.example.musicplayer.data.local.db.RoomSongsDb
 import com.example.musicplayer.data.remote.db.FirestoreSongsDb
 import com.example.musicplayer.data.repository.SongRepositoryImpl
+import com.example.musicplayer.domain.exoplayer.MusicService
 import com.example.musicplayer.domain.exoplayer.PlayerEventListener
 import com.example.musicplayer.domain.notification.MusicNotificationAdapter
 import com.example.musicplayer.domain.notification.MusicNotificationManager
@@ -110,5 +114,20 @@ object SongModule {
     @Singleton
     fun providePlayerListener(exoPlayer: ExoPlayer): PlayerEventListener =
         PlayerEventListener(exoPlayer)
+
+//    @Provides
+//    @Singleton
+//    fun provideSessionToken(
+//        @ApplicationContext context: Context,
+//    ): SessionToken =
+//        SessionToken(context, ComponentName(context, MusicService::class.java))
+//
+//    @Provides
+//    @Singleton
+//    fun provideControllerFuture(
+//        @ApplicationContext context: Context,
+//        sessionToken: SessionToken
+//    ): MediaController =
+//        MediaController.Builder(context, sessionToken).buildAsync().get()
 
 }

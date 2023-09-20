@@ -5,11 +5,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.core.splashscreen.SplashScreen
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.musicplayer.presentation.PlaySongScreen
+import com.example.musicplayer.presentation.SongFullScreen
 import com.example.musicplayer.presentation.SongListScreen
 import com.example.musicplayer.presentation.SplashScreen
 
@@ -28,9 +27,9 @@ fun Navigation(
             SongListScreen(navController = navController)
         }
 
-        composable(route = Screen.PlaySongScreen.route) {
-            PlaySongScreen(navController = navController, onClick = { dest -> navController.navigate(dest) })
-        }
+//        composable(route = Screen.PlaySongScreen.route) {
+//            SongFullScreen(navController = navController, onClick = { dest -> navController.navigate(dest) })
+//        }
 
     }
 }

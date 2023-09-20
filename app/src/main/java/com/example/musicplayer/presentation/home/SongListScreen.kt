@@ -59,7 +59,7 @@ fun SongListScreen(
                             CurrentlyPlayingBar(
                                 Modifier,
                                 onClick = {
-                                        dest -> navController.navigate(dest)
+                                    viewModel.onEvent(HomeUiEvent.ToggleFullScreenMode)
                                 },
                                 song = it
                             )
@@ -81,6 +81,9 @@ fun SongListScreen(
                     }
                 }
 
+                SongFullScreen(onClick = {
+                    viewModel.onEvent(HomeUiEvent.ToggleFullScreenMode)
+                })
             }
         }
     }

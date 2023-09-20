@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.media3.common.MediaItem
 import androidx.media3.common.MediaMetadata
+import androidx.media3.session.MediaController
 import com.example.musicplayer.core.util.Resource
 import com.example.musicplayer.domain.exoplayer.PlayerEvent
 import com.example.musicplayer.domain.exoplayer.PlayerEventListener
@@ -23,7 +24,8 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val songsUsecase: GetSongsUsecase,
-    private val playerEventListener: PlayerEventListener
+    private val playerEventListener: PlayerEventListener,
+    //private val controller: MediaController
 ) : ViewModel() {
 
     private val _eventFlow = MutableSharedFlow<HomeUiEvent>()
@@ -39,6 +41,9 @@ class HomeViewModel @Inject constructor(
 
     init {
         loadSongs()
+//        controller.addListener(
+//            playerEventListener
+//        )
     }
 
     init {
@@ -187,6 +192,21 @@ class HomeViewModel @Inject constructor(
                     _state.value = state.value.copy(
                         progress = event.updatedProgress
                     )
+                }
+            }
+            HomeUiEvent.ToggleFullScreenMode -> {
+                _state.value = state.value.copy(
+                    isInFullScreenMode = !state.value.isInFullScreenMode
+                )
+            }
+            HomeUiEvent.SkipToNext -> {
+                viewModelScope.launch {
+                    playerEventListener.onEvent(PlayerEvent.SkipToNext)
+                }
+            }
+            HomeUiEvent.SkipToPrevious -> {
+                viewModelScope.launch {
+                    playerEventListener.onEvent(PlayerEvent.SkipToPrevious)
                 }
             }
         }

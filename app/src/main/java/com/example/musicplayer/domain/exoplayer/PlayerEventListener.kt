@@ -103,6 +103,24 @@ class PlayerEventListener @Inject constructor(
                     }
                 }
             }
+            PlayerEvent.SkipToPrevious -> {
+                val prevIdx = exoPlayer.currentMediaItemIndex - 1
+                if (prevIdx >= 0) {
+                    exoPlayer.seekToDefaultPosition(prevIdx)
+                    _state.value = PlayerState.Playing(isPlaying = true)
+                    exoPlayer.playWhenReady = true
+                    startProgressUpdate()
+                }
+            }
+            PlayerEvent.SkipToNext -> {
+                val nextIdx = exoPlayer.currentMediaItemIndex + 1
+                if (nextIdx >= 0 && nextIdx < exoPlayer.mediaItemCount) {
+                    exoPlayer.seekToDefaultPosition(nextIdx)
+                    _state.value = PlayerState.Playing(isPlaying = true)
+                    exoPlayer.playWhenReady = true
+                    startProgressUpdate()
+                }
+            }
         }
     }
 
