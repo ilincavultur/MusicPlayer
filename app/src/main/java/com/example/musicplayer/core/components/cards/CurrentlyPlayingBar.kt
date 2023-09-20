@@ -1,6 +1,5 @@
 package com.example.musicplayer.core.components.cards
 
-import android.widget.Space
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -13,12 +12,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
 import com.example.musicplayer.R
-import com.example.musicplayer.core.navigation.Screen
 import com.example.musicplayer.domain.models.Song
 import com.example.musicplayer.ui.theme.EerieBlackLight
 import com.example.musicplayer.ui.theme.EerieBlackMedium
@@ -28,6 +26,8 @@ import com.example.musicplayer.ui.theme.EerieBlackMedium
 fun CurrentlyPlayingBar(
     modifier: Modifier,
     onClick: () -> Unit,
+    onPlayIconClick: () -> Unit,
+    playPauseIcon: Int,
     song: Song
 ) {
     Box(
@@ -53,26 +53,14 @@ fun CurrentlyPlayingBar(
                     .fillMaxHeight(),
                 verticalArrangement = Arrangement.Center
             ) {
-
-//                     AsyncImage(
-//                        model = imagePlaceholderUri,
-//                        contentDescription = "image_preview",
-//                        modifier = Modifier
-//                            .clickable {
-//                                onImagePlaceholderClick()
-//                            }
-//                            .size(Constants.FEED_CARD_MEDIA_WIDTH, Constants.FEED_CARD_MEDIA_HEIGHT)
-//                            .aspectRatio(FEED_CARD_MEDIA_WIDTH / FEED_CARD_MEDIA_HEIGHT)
-//                    )
-
                 Row(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.ic_launcher_background),
-                        contentDescription ="",
+                    AsyncImage(
+                        model = song.coverUrl.toString(),
+                        contentDescription = "image_preview",
                         modifier = Modifier
-                            .size(60.dp)
+                            .size(65.dp)
                             .clip(RoundedCornerShape(10.dp))
                     )
                     Spacer(modifier = Modifier.size(10.dp))
@@ -94,8 +82,10 @@ fun CurrentlyPlayingBar(
                     .fillMaxHeight(),
                 verticalArrangement = Arrangement.Center
             ) {
-                IconButton(onClick = { /*TODO*/ }) {
-                    Icon(painter = painterResource(id = R.drawable.ic_baseline_play_arrow_24), contentDescription = "play_icon", tint = EerieBlackLight, modifier = Modifier.size(32.dp))
+                IconButton(onClick = {
+                    onPlayIconClick()
+                }) {
+                    Icon(painter = painterResource(id = playPauseIcon), contentDescription = "play_icon", tint = EerieBlackLight, modifier = Modifier.size(32.dp))
                 }
             }
         }

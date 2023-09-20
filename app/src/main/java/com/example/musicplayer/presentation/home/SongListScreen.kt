@@ -1,12 +1,14 @@
 package com.example.musicplayer.presentation
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -16,13 +18,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.musicplayer.core.components.cards.CurrentlyPlayingBar
 import com.example.musicplayer.core.components.cards.SongListCard
-import com.example.musicplayer.core.navigation.Navigation
-import com.example.musicplayer.core.navigation.Screen
 import com.example.musicplayer.presentation.home.HomeUiEvent
-import com.example.musicplayer.presentation.home.HomeUiState
 import com.example.musicplayer.presentation.home.HomeViewModel
 import com.example.musicplayer.ui.theme.EerieBlack
-import com.example.musicplayer.ui.theme.EerieBlackLight
 import com.example.musicplayer.ui.theme.EerieBlackLightTransparent
 import com.example.musicplayer.ui.theme.PurpleAccent
 
@@ -56,13 +54,24 @@ fun SongListScreen(
                 androidx.compose.material.Scaffold(
                     bottomBar = {
                         state.currentlySelectedSong?.let {
-                            CurrentlyPlayingBar(
-                                Modifier,
-                                onClick = {
-                                    viewModel.onEvent(HomeUiEvent.ToggleFullScreenMode)
-                                },
-                                song = it
-                            )
+                            if (!state.isInFullScreenMode) {
+                                CurrentlyPlayingBar(
+                                    Modifier,
+                                    onClick = {
+                                        viewModel.onEvent(HomeUiEvent.ToggleFullScreenMode)
+                                    },
+                                    onPlayIconClick = {
+                                        viewModel.onEvent(HomeUiEvent.PlayPause)
+                                    },
+                                    song = it,
+                                    playPauseIcon = if (state.isPlaying) {
+                                        com.example.musicplayer.R.drawable.ic_baseline_pause_24
+                                    } else {
+                                        com.example.musicplayer.R.drawable.ic_baseline_play_arrow_24
+                                    }
+
+                                )
+                            }
                         }
                     }
                 ) {
