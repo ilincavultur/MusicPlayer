@@ -23,6 +23,7 @@ import com.example.musicplayer.core.components.cards.SongTitleText
 import com.example.musicplayer.presentation.home.HomeUiEvent
 import com.example.musicplayer.presentation.home.HomeViewModel
 import com.example.musicplayer.ui.theme.EerieBlack
+import com.example.musicplayer.ui.theme.EerieBlackExtraLight
 import com.example.musicplayer.ui.theme.EerieBlackLight
 
 @Composable
@@ -93,8 +94,8 @@ fun SongFullScreen(
                    Column(
                        horizontalAlignment = Alignment.End,
                    ) {
-                       SongTitleText(text = currentlySelectedSong?.title.toString(), fontSize = 25.sp)
-                       SongArtistText(text = currentlySelectedSong?.artist.toString(), fontSize = 20.sp)
+                       SongTitleText(text = currentlySelectedSong?.title.toString(), fontSize = 25.sp, color = EerieBlackLight)
+                       SongArtistText(text = currentlySelectedSong?.artist.toString(), fontSize = 20.sp, color = EerieBlackLight)
                    }
                }
 

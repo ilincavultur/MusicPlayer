@@ -69,8 +69,8 @@ fun CurrentlyPlayingBar(
                             .fillMaxHeight(),
                         verticalArrangement = Arrangement.Center
                     ) {
-                        SongTitleText(text = song.title.toString(), fontSize = 20.sp)
-                        SongArtistText(text = song.artist.toString(), fontSize = 15.sp)
+                        SongTitleText(text = song.title.toString(), fontSize = 20.sp, color = EerieBlackLight)
+                        SongArtistText(text = song.artist.toString(), fontSize = 15.sp, color = EerieBlackLight)
                     }
 
                 }

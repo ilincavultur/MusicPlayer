@@ -2,6 +2,7 @@ package com.example.musicplayer.core.components.cards
 
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -23,12 +24,13 @@ val valeraRound = FontFamily(
 @Composable
 fun SongTitleText(
     text: String,
-    fontSize: TextUnit
+    fontSize: TextUnit,
+    color: Color
 ) {
     Text(
         text = text,
         style = TextStyle(
-            color = EerieBlackLight,
+            color = color,
             fontWeight = FontWeight.ExtraBold,
             fontSize = fontSize,
             fontFamily = valeraRound

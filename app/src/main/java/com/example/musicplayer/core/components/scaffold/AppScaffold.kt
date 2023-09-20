@@ -3,10 +3,7 @@ package com.example.musicplayer.core.components.scaffold
 import android.content.Context
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.BookmarkBorder
@@ -51,6 +48,16 @@ fun AppScaffold(
         backgroundColor = EerieBlack,
         snackbarHost = {
             SnackbarHost(hostState = snackbarHost.snackbarHostState)
+        },
+        topBar = {
+            if (navBackStackEntry?.destination?.route != Screen.SplashScreen.route) {
+                TopAppBar(
+                    backgroundColor = EerieBlack,
+                    modifier = Modifier.height(45.dp)
+                ) {
+
+                }
+            }
         },
         scaffoldState = scaffoldState,
     ) { innerPadding ->

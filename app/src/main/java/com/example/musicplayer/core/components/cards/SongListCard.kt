@@ -44,6 +44,7 @@ import com.airbnb.lottie.compose.rememberLottieComposition
 import com.example.musicplayer.R
 import com.example.musicplayer.domain.models.Song
 import com.example.musicplayer.ui.theme.EerieBlack
+import com.example.musicplayer.ui.theme.EerieBlackExtraLight
 import com.example.musicplayer.ui.theme.EerieBlackLight
 import com.example.musicplayer.ui.theme.PurpleAccent
 
@@ -74,8 +75,8 @@ fun SongListCard(
                         .fillMaxHeight(),
                     verticalArrangement = Arrangement.Center
                 ) {
-                    SongTitleText(text = song.title.toString(), fontSize = 20.sp)
-                    SongArtistText(text = song.artist.toString(), fontSize = 15.sp)
+                    SongTitleText(text = song.title.toString(), fontSize = 20.sp, color = EerieBlackExtraLight)
+                    SongArtistText(text = song.artist.toString(), fontSize = 15.sp, color = EerieBlackLight)
                 }
                 if (isPlaying) {
                     val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.animation_lmro1qt2))
@@ -103,7 +104,7 @@ fun SongListCard(
                         contentDescription = "image_preview",
                         modifier = Modifier
                             .size(65.dp)
-                            .clip(RoundedCornerShape(10.dp))
+                            //.clip(RoundedCornerShape(10.dp))
                     )
                 }
             }
