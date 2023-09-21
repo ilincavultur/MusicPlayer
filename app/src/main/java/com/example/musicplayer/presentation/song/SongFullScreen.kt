@@ -20,6 +20,7 @@ import coil.compose.AsyncImage
 import com.example.musicplayer.R
 import com.example.musicplayer.core.components.cards.SongArtistText
 import com.example.musicplayer.core.components.cards.SongTitleText
+import com.example.musicplayer.presentation.home.HomeState
 import com.example.musicplayer.presentation.home.HomeUiEvent
 import com.example.musicplayer.presentation.home.HomeViewModel
 import com.example.musicplayer.ui.theme.EerieBlack
@@ -34,6 +35,16 @@ fun SongFullScreen(
     val state = viewModel.state.value
     val currentlySelectedSong = state.currentlySelectedSong
     val context = LocalContext.current
+
+    var sliderIsChanging by remember { mutableStateOf(false) }
+    var localSliderValue by remember { mutableStateOf(0f) }
+
+
+    val progr = if (sliderIsChanging) localSliderValue else state.progress
+    val sliderProgress by remember(progr) { mutableStateOf(progr) }
+
+
+    //val sliderProgressVal by remember(sliderProgress) { mutableStateOf(sliderProgress) }
 
     AnimatedVisibility(
         visible = state.isInFullScreenMode && (state.currentlySelectedSong != null),
@@ -111,7 +122,27 @@ fun SongFullScreen(
                        println("Progress for Song:" )
                        println(state.progress)
                        println(state.progressString)
-                       SongSlider(progressString = state.progressString, progress = state.progress, totalTime = state.currentlySelectedSongString)
+                       SongSlider(
+//                           progressString = state.progressString,
+//                           progress = state.progress,
+//                           totalTime = state.currentlySelectedSongString,
+                           sliderIsChanging = sliderIsChanging,
+                           //localSliderValue = localSliderValue,
+                           playbackProgress = sliderProgress,
+                           state = state,
+                           onSliderPositionChange = {
+                               localSliderValue = it
+                               viewModel.onEvent(HomeUiEvent.UpdateProgress(   localSliderValue ))
+                               sliderIsChanging = true
+                           },
+                           onSliderChangeFinished = {
+                               //(state.currentlySelectedSong?.duration ?: 0) *
+                               //viewModel.onEvent(HomeUiEvent.SeekTo(  ( (state.currentlySelectedSong?.duration ?: 0) * localSliderValue.toLong() ) ))
+                               viewModel.onEvent(HomeUiEvent.UpdateProgress(   localSliderValue ))
+                               //mainViewModel.seekTo(songViewModel.currentSongDuration * localSliderValue)
+                               sliderIsChanging = false
+                           },
+                       )
                    }
                }
 
@@ -135,31 +166,44 @@ fun SongCoverPreview(
 
 @Composable
 fun SongSlider(
-    progress: Float,
-    progressString: String,
-    totalTime: String
-    //viewModel: HomeViewModel = hiltViewModel()
+//    progress: Float,
+//    progressString: String,
+//    totalTime: String,
+    sliderIsChanging: Boolean,
+    //localSliderValue: Float,
+    state: HomeState,
+    playbackProgress: Float,
+    onSliderPositionChange: (Float) -> Unit,
+    onSliderChangeFinished: () -> Unit,
 ) {
-    //val state = viewModel.state.value
-    //var progressString by remember { mutableStateOf(state.progressString) }
-     var sliderPosition by remember { mutableStateOf(0f) }
+    val totalTime = state.currentlySelectedSongString
+    val progressString = state.progressString
+    val progress = state.progress
+
+    var isChanging by remember { mutableStateOf(false) }
+    var localSliderValue by remember { mutableStateOf(0f) }
+
     Column {
         Slider(
-            value = sliderPosition,
-            //value = progress / 100,
-            onValueChange = { sliderPosition = it }
+            //value = sliderPosition,
+            value = if (isChanging) localSliderValue else state.progress / 100,
+            onValueChange = {
+                isChanging = true
+                localSliderValue = it
+                onSliderPositionChange(it)
+                
+            },
+            onValueChangeFinished = {
+                isChanging = false
+            }
         )
         //Text(text = sliderPosition.toString())
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-
-                Text(text = "progressString", color = EerieBlackLight)
-
-
-                Text(text = "totalTime", color = EerieBlackLight)
-
+            Text(text = progressString, color = EerieBlackLight)
+            Text(text = totalTime, color = EerieBlackLight)
         }
     }
 }

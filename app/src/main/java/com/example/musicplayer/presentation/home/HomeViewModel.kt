@@ -57,7 +57,7 @@ class HomeViewModel @Inject constructor(
                     is PlayerState.CurrentlyPlaying -> {
                         _state.value = state.value.copy(
                             currentlySelectedSong = state.value.songs[playerState.mediaItemIdx],
-                            //currentlySelectedSongString = formatDuration(state.value.songs[playerState.mediaItemIdx].duration?.toLong() ?: 0)
+                            currentlySelectedSongString = formatDuration(state.value.songs[playerState.mediaItemIdx].duration?.toLong() ?: 0)
                         )
                     }
                     is PlayerState.Ended -> TODO()
