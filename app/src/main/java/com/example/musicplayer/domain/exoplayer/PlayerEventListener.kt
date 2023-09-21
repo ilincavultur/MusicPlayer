@@ -51,6 +51,16 @@ class PlayerEventListener @Inject constructor(
         }
     }
 
+    override fun onMediaItemTransition(mediaItem: MediaItem?, reason: Int) {
+        when (reason) {
+            Player.MEDIA_ITEM_TRANSITION_REASON_AUTO -> {
+                _state.value = PlayerState.CurrentlyPlaying(mediaItemIdx = exoPlayer.currentMediaItemIndex)
+                exoPlayer.playWhenReady = true
+            }
+            else -> super.onMediaItemTransition(mediaItem, reason)
+        }
+    }
+
     private suspend fun startProgressUpdate() = progressJob.run {
         while (true) {
             delay(500)
