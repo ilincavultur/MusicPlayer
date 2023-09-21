@@ -36,15 +36,7 @@ fun SongFullScreen(
     val currentlySelectedSong = state.currentlySelectedSong
     val context = LocalContext.current
 
-    var sliderIsChanging by remember { mutableStateOf(false) }
     var localSliderValue by remember { mutableStateOf(0f) }
-
-
-    val progr = if (sliderIsChanging) localSliderValue else state.progress
-    val sliderProgress by remember(progr) { mutableStateOf(progr) }
-
-
-    //val sliderProgressVal by remember(sliderProgress) { mutableStateOf(sliderProgress) }
 
     AnimatedVisibility(
         visible = state.isInFullScreenMode && (state.currentlySelectedSong != null),
@@ -78,7 +70,6 @@ fun SongFullScreen(
                        }
                    }
                }
-
 
                Row(
                    verticalAlignment = Alignment.Top,
@@ -123,24 +114,10 @@ fun SongFullScreen(
                        println(state.progress)
                        println(state.progressString)
                        SongSlider(
-//                           progressString = state.progressString,
-//                           progress = state.progress,
-//                           totalTime = state.currentlySelectedSongString,
-                           sliderIsChanging = sliderIsChanging,
-                           //localSliderValue = localSliderValue,
-                           playbackProgress = sliderProgress,
                            state = state,
                            onSliderPositionChange = {
                                localSliderValue = it
-                               viewModel.onEvent(HomeUiEvent.UpdateProgress(   localSliderValue ))
-                               sliderIsChanging = true
-                           },
-                           onSliderChangeFinished = {
-                               //(state.currentlySelectedSong?.duration ?: 0) *
-                               //viewModel.onEvent(HomeUiEvent.SeekTo(  ( (state.currentlySelectedSong?.duration ?: 0) * localSliderValue.toLong() ) ))
-                               viewModel.onEvent(HomeUiEvent.UpdateProgress(   localSliderValue ))
-                               //mainViewModel.seekTo(songViewModel.currentSongDuration * localSliderValue)
-                               sliderIsChanging = false
+                               viewModel.onEvent(HomeUiEvent.UpdateProgress(localSliderValue))
                            },
                        )
                    }
@@ -166,38 +143,27 @@ fun SongCoverPreview(
 
 @Composable
 fun SongSlider(
-//    progress: Float,
-//    progressString: String,
-//    totalTime: String,
-    sliderIsChanging: Boolean,
-    //localSliderValue: Float,
     state: HomeState,
-    playbackProgress: Float,
     onSliderPositionChange: (Float) -> Unit,
-    onSliderChangeFinished: () -> Unit,
 ) {
     val totalTime = state.currentlySelectedSongString
     val progressString = state.progressString
-    val progress = state.progress
 
     var isChanging by remember { mutableStateOf(false) }
     var localSliderValue by remember { mutableStateOf(0f) }
 
     Column {
         Slider(
-            //value = sliderPosition,
             value = if (isChanging) localSliderValue else state.progress / 100,
             onValueChange = {
                 isChanging = true
                 localSliderValue = it
                 onSliderPositionChange(it)
-                
             },
             onValueChangeFinished = {
                 isChanging = false
             }
         )
-        //Text(text = sliderPosition.toString())
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
