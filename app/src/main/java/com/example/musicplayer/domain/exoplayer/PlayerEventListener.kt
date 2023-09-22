@@ -7,6 +7,7 @@ import androidx.media3.exoplayer.ExoPlayer
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
 import javax.inject.Inject
+import kotlin.time.Duration.Companion.seconds
 
 class PlayerEventListener @Inject constructor(
     val exoPlayer: ExoPlayer
@@ -63,7 +64,7 @@ class PlayerEventListener @Inject constructor(
 
     private suspend fun startProgressUpdate() = progressJob.run {
         while (true) {
-            delay(500)
+            delay(1.seconds / 30)
             //println("exoPlayer.currentPosition " + exoPlayer.currentPosition)
             _state.value = PlayerState.Progress(exoPlayer.currentPosition)
         }
@@ -82,10 +83,14 @@ class PlayerEventListener @Inject constructor(
     suspend fun onEvent(event: PlayerEvent) {
         when(event) {
             PlayerEvent.Backward -> {
-                exoPlayer.seekBack()
+
+                //mainViewModel.seekTo(if (exoPlayer.currentPosition - 10 * 1000f < 0) 0f else exoPlayer.currentPosition - 10 * 1000f)
+                println("exoPlayer.seekBackIncrement " + exoPlayer.seekBackIncrement)
+                exoPlayer.seekTo((if (exoPlayer.currentPosition - 10 * 1000f < 0) 0f else exoPlayer.currentPosition - 10 * 1000f).toLong())
             }
             PlayerEvent.Forward -> {
-                exoPlayer.seekForward()
+                //mainViewModel.seekTo(currentPosition + 10 * 1000f)
+                exoPlayer.seekTo((exoPlayer.currentPosition + 10 * 1000f).toLong())
             }
             PlayerEvent.PlayPause -> {
                 playPause()

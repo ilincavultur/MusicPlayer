@@ -95,7 +95,7 @@ fun SongFullScreen(
 //                           .fillMaxWidth()
 //                   ) {
                        IconButton(onClick = {
-                           //onClick()
+                           onClick()
                        }) {
                            Icon(painter = painterResource(id = R.drawable.ic_baseline_keyboard_arrow_down_24), contentDescription = "minimize_current_song", tint = EerieBlackLight)
                        }
@@ -217,6 +217,7 @@ fun SongControls(
             .background(color = EerieBlack),
         verticalAlignment = Alignment.CenterVertically
     ) {
+
         IconButton(onClick = {
             viewModel.onEvent(HomeUiEvent.SkipToPrevious)
         }) {
@@ -224,10 +225,22 @@ fun SongControls(
         }
 
         IconButton(onClick = {
+            viewModel.onEvent(HomeUiEvent.Backward)
+        }) {
+            Icon(painter = painterResource(id = R.drawable.ic_baseline_replay_10_24), contentDescription = "skip_prev", tint = EerieBlackLight, modifier = Modifier.size(25.dp))
+        }
+
+        IconButton(onClick = {
             viewModel.onEvent(HomeUiEvent.PlayPause)
         }) {
             Icon(painter = painterResource(id = if (state.isPlaying) {R.drawable.ic_baseline_pause_circle_24 } else {R.drawable.ic_baseline_play_arrow_24}
             ), contentDescription = "pause_play", tint = EerieBlackLight, modifier = Modifier.size(45.dp))
+        }
+
+        IconButton(onClick = {
+            viewModel.onEvent(HomeUiEvent.Forward)
+        }) {
+            Icon(painter = painterResource(id = R.drawable.ic_baseline_forward_10_24), contentDescription = "skip_prev", tint = EerieBlackLight, modifier = Modifier.size(25.dp))
         }
 
         IconButton(onClick = {
