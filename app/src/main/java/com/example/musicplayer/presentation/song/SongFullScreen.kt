@@ -2,16 +2,26 @@ package com.example.musicplayer.presentation
 
 import android.content.Context
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.gestures.draggable
+import androidx.compose.foundation.gestures.rememberDraggableState
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -26,30 +36,47 @@ import com.example.musicplayer.presentation.home.HomeViewModel
 import com.example.musicplayer.ui.theme.EerieBlack
 import com.example.musicplayer.ui.theme.EerieBlackExtraLight
 import com.example.musicplayer.ui.theme.EerieBlackLight
+import kotlin.math.roundToInt
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun SongFullScreen(
     viewModel: HomeViewModel = hiltViewModel(),
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    //swipeableState: SwipeableState<Int>
 ) {
     val state = viewModel.state.value
     val currentlySelectedSong = state.currentlySelectedSong
     val context = LocalContext.current
 
     var localSliderValue by remember { mutableStateOf(0f) }
+    val animationTime = 300
+
+
 
     AnimatedVisibility(
         visible = state.isInFullScreenMode && (state.currentlySelectedSong != null),
         enter = slideInVertically(
-            initialOffsetY = { it }
+            initialOffsetY = { it },
+            animationSpec = tween(
+                durationMillis = animationTime,
+                easing = LinearEasing
+            )
         ),
-        exit = slideOutVertically (
-            targetOffsetY = { it }
+        exit = slideOutVertically  (
+            targetOffsetY = {
+                it
+            },
+            animationSpec = tween(
+                durationMillis = animationTime,
+                easing = LinearEasing
+            )
         )
     ) {
-       if (state.isInFullScreenMode && (state.currentlySelectedSong != null)) {
            Column(
                modifier = Modifier.fillMaxSize()
+                   //.offset { IntOffset(swipeableState.offset.value.roundToInt(), 0) }
+
            ) {
 
                Row(
@@ -58,17 +85,21 @@ fun SongFullScreen(
                        .background(color = EerieBlack)
                        .fillMaxWidth()
                        .padding(10.dp)
-                       .height(20.dp)
+                       .height(20.dp).
+                           clickable {
+                               onClick()
+                           }
                ) {
-                   Column(
-
-                   ) {
+//                   Column(
+//                       modifier = Modifier
+//                           .fillMaxWidth()
+//                   ) {
                        IconButton(onClick = {
-                           onClick()
+                           //onClick()
                        }) {
                            Icon(painter = painterResource(id = R.drawable.ic_baseline_keyboard_arrow_down_24), contentDescription = "minimize_current_song", tint = EerieBlackLight)
                        }
-                   }
+                   //}
                }
 
                Row(
@@ -122,10 +153,8 @@ fun SongFullScreen(
                        )
                    }
                }
-
                SongControls(context = context)
            }
-       }
     }
 }
 

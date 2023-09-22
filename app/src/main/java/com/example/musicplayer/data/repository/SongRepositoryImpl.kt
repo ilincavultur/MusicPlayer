@@ -34,30 +34,32 @@ class SongRepositoryImpl @Inject constructor(
             it.toSong()
         }
 
-        emit(Resource.Loading(data = songs))
+//        emit(Resource.Loading(data = songs))
+//
+//        try {
+//            val remoteSongs = firestoreSongsDb.getRemoteSongs()
+//
+//            dao.deleteSongs(remoteSongs.map {
+//                it.mediaId?.toInt() ?: 0
+//            })
+//            dao.insertSongs(
+//                remoteSongs.map {
+//                    it.toSongEntity()
+//                }
+//            )
+//
+//        } catch (e: HttpException) {
+//            emit(Resource.Error(message = "Ooops something went wrong", data = songs))
+//        } catch (e: IOException) {
+//            emit(Resource.Error(message = "Ooops something went wrong", data = songs))
+//        }
+//
+//        val newSongs = dao.getSongs().map {
+//            it.toSong()
+//        }
+//        emit(Resource.Success(newSongs))
 
-        try {
-            val remoteSongs = firestoreSongsDb.getRemoteSongs()
-
-            dao.deleteSongs(remoteSongs.map {
-                it.mediaId?.toInt() ?: 0
-            })
-            dao.insertSongs(
-                remoteSongs.map {
-                    it.toSongEntity()
-                }
-            )
-
-        } catch (e: HttpException) {
-            emit(Resource.Error(message = "Ooops something went wrong", data = songs))
-        } catch (e: IOException) {
-            emit(Resource.Error(message = "Ooops something went wrong", data = songs))
-        }
-
-        val newSongs = dao.getSongs().map {
-            it.toSong()
-        }
-        emit(Resource.Success(newSongs))
+        emit(Resource.Success(songs))
 
     }
 

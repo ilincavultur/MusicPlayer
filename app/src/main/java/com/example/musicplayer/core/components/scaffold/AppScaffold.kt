@@ -50,7 +50,9 @@ fun AppScaffold(
             SnackbarHost(hostState = snackbarHost.snackbarHostState)
         },
         topBar = {
-            if (navBackStackEntry?.destination?.route != Screen.SplashScreen.route) {
+            if (navBackStackEntry?.destination?.route !in listOf(
+                    Screen.SplashScreen.route,
+            )) {
                 TopAppBar(
                     backgroundColor = EerieBlack,
                     modifier = Modifier.height(45.dp)

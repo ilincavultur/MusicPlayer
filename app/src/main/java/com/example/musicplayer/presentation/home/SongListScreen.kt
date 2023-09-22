@@ -4,16 +4,23 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.FractionalThreshold
+import androidx.compose.material.swipeable
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.musicplayer.core.components.cards.CurrentlyPlayingBar
@@ -24,17 +31,29 @@ import com.example.musicplayer.ui.theme.EerieBlack
 import com.example.musicplayer.ui.theme.EerieBlackLightTransparent
 import com.example.musicplayer.ui.theme.PurpleAccent
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun SongListScreen(
     navController: NavController,
     viewModel: HomeViewModel = hiltViewModel()
 ) {
     val state = viewModel.state.value
+//    val swipeableState =
+//        androidx.compose.material.rememberSwipeableState(initialValue = 1)
+//    val szPx = with(LocalDensity.current) { LocalConfiguration.current.screenHeightDp.dp.toPx() }
+//    val endAnchor = 0f
 
+    //val anchors =  mapOf(0f to 0, szPx to 1)
     Surface(
         modifier = Modifier
             .fillMaxSize()
             .background(color = EerieBlack)
+//            .swipeable(
+//                state = swipeableState,
+//                anchors = anchors,
+//                thresholds = { _, _ -> FractionalThreshold(0.34f) },
+//                orientation = Orientation.Vertical
+//            )
     ) {
         when (state.isLoading) {
             true -> {
@@ -74,6 +93,7 @@ fun SongListScreen(
                         }
                     }
                 ) {
+
                     LazyColumn(
                         modifier = Modifier
                             .fillMaxSize()
@@ -89,9 +109,13 @@ fun SongListScreen(
                     }
                 }
 
+
+
                 SongFullScreen(onClick = {
                     viewModel.onEvent(HomeUiEvent.ToggleFullScreenMode)
-                })
+                },
+                    //swipeableState = swipeableState
+                )
             }
         }
     }
