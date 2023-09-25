@@ -15,7 +15,7 @@ data class Song(
 
 fun Song.toSongEntity() : SongEntity {
     return SongEntity(
-        id = mediaId?.toInt(),
+        songId = mediaId?.toInt(),
         title = title,
         fileName = fileName,
         artist = artist,

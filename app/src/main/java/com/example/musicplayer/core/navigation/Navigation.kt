@@ -11,6 +11,7 @@ import androidx.navigation.compose.composable
 import com.example.musicplayer.presentation.SongFullScreen
 import com.example.musicplayer.presentation.SongListScreen
 import com.example.musicplayer.presentation.SplashScreen
+import com.example.musicplayer.presentation.playlist.PlaylistScreen
 
 @Composable
 fun Navigation(
@@ -25,6 +26,10 @@ fun Navigation(
 
         composable(route = Screen.SongListScreen.route) {
             SongListScreen(navController = navController)
+        }
+
+        composable(route = Screen.PlaylistScreen.route) {
+            PlaylistScreen(navController = navController)
         }
 
     }

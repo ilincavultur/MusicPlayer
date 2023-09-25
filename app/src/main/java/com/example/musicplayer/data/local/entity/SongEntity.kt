@@ -1,6 +1,5 @@
 package com.example.musicplayer.data.local.entity
 
-import android.graphics.BitmapFactory
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.example.musicplayer.domain.models.Song
@@ -8,7 +7,7 @@ import com.example.musicplayer.domain.models.Song
 @Entity(tableName = "song_entity")
 data class SongEntity(
     @PrimaryKey
-    val id: Int? = null,
+    val songId: Int? = null,
     val title: String? = "",
     val fileName: String? = "",
     val artist: String? = "",
@@ -19,7 +18,7 @@ data class SongEntity(
 
 fun SongEntity.toSong() : Song {
     return Song(
-        mediaId = id.toString(),
+        mediaId = songId.toString(),
         title = title,
         fileName = fileName,
         artist = artist,

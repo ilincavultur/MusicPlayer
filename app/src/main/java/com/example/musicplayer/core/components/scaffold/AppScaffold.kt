@@ -25,6 +25,7 @@ import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.musicplayer.core.components.bottom.HomeBottomBar
 import com.example.musicplayer.core.components.cards.CurrentlyPlayingBar
 import com.example.musicplayer.core.navigation.Navigation
 import com.example.musicplayer.core.navigation.Screen
@@ -59,6 +60,24 @@ fun AppScaffold(
                 ) {
 
                 }
+            }
+        },
+        bottomBar = {
+            if (navBackStackEntry?.destination?.route !in listOf(
+                    Screen.SplashScreen.route,
+                )) {
+                HomeBottomBar(
+                    currentDestination = navBackStackEntry?.destination?.route,
+                    onClick = { route ->
+                        navController.navigate(route) {
+                            popUpTo(navController.graph.findStartDestination().id) {
+                                saveState = true
+                            }
+                            launchSingleTop = true
+                            restoreState = true
+                        }
+                    }
+                )
             }
         },
         scaffoldState = scaffoldState,

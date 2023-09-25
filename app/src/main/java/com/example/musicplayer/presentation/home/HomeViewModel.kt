@@ -47,17 +47,20 @@ class HomeViewModel @Inject constructor(
                 when (playerState) {
                     is PlayerState.Buffering -> {
                         viewModelScope.launch {
-                            val newProgress = calculateProgressValue(playerState.progress)
+                            //val newProgress = calculateProgressValue(playerState.progress)
+                            val newProgress = playerState.progress
                             _state.value = state.value.copy(
-                                progress = newProgress,
-                                progressString = formatDuration(newProgress.toLong())
+                                progress = newProgress.toFloat(),
+                                //progressString = formatDuration(newProgress.toLong())
+                                progressString = formatDurationFromMili(newProgress.toLong())
                             )
                         }
                     }
                     is PlayerState.CurrentlyPlaying -> {
                         _state.value = state.value.copy(
                             currentlySelectedSong = state.value.songs[playerState.mediaItemIdx],
-                            currentlySelectedSongString = formatDuration(state.value.songs[playerState.mediaItemIdx].duration?.toLong() ?: 0)
+                            //currentlySelectedSongString = formatDuration(state.value.songs[playerState.mediaItemIdx].duration?.toLong() ?: 0)
+                            currentlySelectedSongString = formatDurationFromMili(state.value.duration)
                         )
                     }
                     is PlayerState.Ended -> TODO()
@@ -101,6 +104,12 @@ class HomeViewModel @Inject constructor(
     private fun formatDuration(duration: Long): String {
         val minute = duration / 60
         val seconds = duration % 60
+        return String.format("%02d:%02d", minute, seconds)
+    }
+
+    private fun formatDurationFromMili(milliseconds: Long): String {
+        val minute = milliseconds / 1000 / 60
+        val seconds = milliseconds / 1000 % 60
         return String.format("%02d:%02d", minute, seconds)
     }
 
