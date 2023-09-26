@@ -1,18 +1,29 @@
 package com.example.musicplayer.presentation.playlist
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.itemsIndexed
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Create
+import androidx.compose.material.icons.filled.Info
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Color.Companion.Red
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.example.musicplayer.core.components.cards.PlaylistAddCard
 import com.example.musicplayer.core.components.cards.PlaylistCard
+import com.example.musicplayer.core.components.dialog.PlaylistDialog
+import com.example.musicplayer.ui.theme.PurpleAccent
 
 @Composable
 fun PlaylistScreen(
@@ -34,9 +45,30 @@ fun PlaylistScreen(
         items(count = 1) {
             PlaylistAddCard(
                 createPlaylist = {
-                    viewModel.onEvent(PlaylistScreenEvent.CreatePlaylist("blabla"))
+                    viewModel.onEvent(PlaylistScreenEvent.ToggleCreateDialog)
                 }
             )
         }
     }
+
+    val userNameHasError by viewModel.userNameHasError.collectAsStateWithLifecycle()
+
+    if (state.isCreateDialogOpen) {
+        PlaylistDialog(
+            onDismissRequest = { viewModel.onEvent(PlaylistScreenEvent.ToggleCreateDialog) },
+            onConfirmation = {
+                if (!userNameHasError) {
+                    viewModel.onEvent(PlaylistScreenEvent.CreatePlaylist)
+                }
+            },
+            dialogTitle = "Choose a playlist name",
+            dialogText = state.dialogText,
+            updateText = {
+                viewModel.onEvent(PlaylistScreenEvent.UpdateDialogText(it))
+            },
+            userNameHasError = userNameHasError
+        )
+    }
+
+
 }

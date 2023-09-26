@@ -1,22 +1,16 @@
 package com.example.musicplayer.presentation.playlist
 
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.*
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.musicplayer.core.util.Resource
 import com.example.musicplayer.domain.models.Playlist
-import com.example.musicplayer.domain.usecases.GetSongsUsecase
 import com.example.musicplayer.domain.usecases.PlaylistUsecases
-import com.example.musicplayer.presentation.home.HomeState
-import com.example.musicplayer.presentation.home.HomeUiEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.asSharedFlow
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -30,6 +24,18 @@ class PlaylistScreenViewModel @Inject constructor(
 
     private val _state = mutableStateOf(PlaylistScreenState())
     val state: State<PlaylistScreenState> = _state
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    val userNameHasError: StateFlow<Boolean> =
+        snapshotFlow { state.value.dialogText }
+            .mapLatest {
+                it.isEmpty() || it.isBlank()
+            }
+            .stateIn(
+                scope = viewModelScope,
+                started = SharingStarted.WhileSubscribed(5_000),
+                initialValue = false
+            )
 
     private var searchJob: Job? = null
 
@@ -77,10 +83,16 @@ class PlaylistScreenViewModel @Inject constructor(
             is PlaylistScreenEvent.ShowSnackbar -> TODO()
             is PlaylistScreenEvent.CreatePlaylist -> {
                 viewModelScope.launch {
-                    playlistUsecases.createPlaylist(playlist = Playlist(playlistName = event.playlistName), songs = emptyList())
+                    playlistUsecases.createPlaylist(
+                        playlist = Playlist(playlistName = state.value.dialogText),
+                        songs = emptyList()
+                    )
                     loadPlaylists()
                 }
-
+                _state.value = state.value.copy(
+                    isCreateDialogOpen = !state.value.isCreateDialogOpen,
+                    dialogText = ""
+                )
             }
             is PlaylistScreenEvent.AddSongsToPlaylist -> {
                 viewModelScope.launch {
@@ -88,6 +100,16 @@ class PlaylistScreenViewModel @Inject constructor(
                     loadPlaylists()
                 }
 
+            }
+            PlaylistScreenEvent.ToggleCreateDialog -> {
+                _state.value = state.value.copy(
+                    isCreateDialogOpen = !state.value.isCreateDialogOpen
+                )
+            }
+            is PlaylistScreenEvent.UpdateDialogText -> {
+                _state.value = state.value.copy(
+                    dialogText = event.playlistName
+                )
             }
         }
     }
