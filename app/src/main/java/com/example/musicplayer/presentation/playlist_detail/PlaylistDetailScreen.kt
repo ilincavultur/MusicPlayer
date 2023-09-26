@@ -1,41 +1,38 @@
-package com.example.musicplayer.presentation
+package com.example.musicplayer.presentation.playlist_detail
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.slideInVertically
-import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.background
-import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.FractionalThreshold
-import androidx.compose.material.swipeable
-import androidx.compose.material3.*
+import androidx.compose.material.Scaffold
+import androidx.compose.material.Text
+import androidx.compose.material.TopAppBar
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Divider
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.example.musicplayer.R
 import com.example.musicplayer.core.components.cards.CurrentlyPlayingBar
 import com.example.musicplayer.core.components.cards.SongListCard
+import com.example.musicplayer.presentation.SongFullScreen
 import com.example.musicplayer.presentation.home.HomeUiEvent
-import com.example.musicplayer.presentation.home.HomeViewModel
 import com.example.musicplayer.ui.theme.EerieBlack
 import com.example.musicplayer.ui.theme.EerieBlackLightTransparent
 import com.example.musicplayer.ui.theme.PurpleAccent
 
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun SongListScreen(
+fun PlaylistDetailScreen(
     navController: NavController,
-    viewModel: HomeViewModel = hiltViewModel()
+    viewModel: PlaylistDetailViewModel = hiltViewModel()
 ) {
     val state = viewModel.state.value
 
@@ -59,53 +56,62 @@ fun SongListScreen(
                 }
             }
             false -> {
-                androidx.compose.material.Scaffold(
+                Scaffold(
+                    topBar = {
+                             TopAppBar {
+                                 state.playlistWithSongs?.let {
+                                     Text(text = it.playlist.playlistName, style = TextStyle(
+                                         color = Color.White
+                                     ))
+                                 }
+                             }
+                    },
                     bottomBar = {
                         state.currentlySelectedSong?.let {
                             if (!state.isInFullScreenMode) {
                                 CurrentlyPlayingBar(
                                     Modifier,
                                     onClick = {
-                                        viewModel.onEvent(HomeUiEvent.ToggleFullScreenMode)
+                                        viewModel.onEvent(PlaylistDetailEvent.ToggleFullScreenMode)
                                     },
                                     onPlayIconClick = {
-                                        viewModel.onEvent(HomeUiEvent.PlayPause)
+                                        viewModel.onEvent(PlaylistDetailEvent.PlayPause)
                                     },
                                     song = it,
                                     playPauseIcon = if (state.isPlaying) {
-                                        com.example.musicplayer.R.drawable.ic_baseline_pause_24
+                                        R.drawable.ic_baseline_pause_24
                                     } else {
-                                        com.example.musicplayer.R.drawable.ic_baseline_play_arrow_24
+                                        R.drawable.ic_baseline_play_arrow_24
                                     }
                                 )
                             }
                         }
                     }
-                ) {
+                ) { paddingValues ->
 
-                    LazyColumn(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .background(color = EerieBlack)
-                            .padding(it)
-                    ) {
-                        itemsIndexed(state.songs) { index, song ->
-                            SongListCard(song, modifier = Modifier.fillMaxSize(), onSongCardClick = {
-                                viewModel.onEvent(HomeUiEvent.SelectAudio(index))
-                            }, isPlaying = state.isPlaying && state.currentlySelectedSong == song)
-                            Divider(color = EerieBlackLightTransparent)
+                    state.playlistWithSongs?.let { playlist ->
+                        LazyColumn(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .background(color = EerieBlack)
+                                .padding(paddingValues)
+                        ) {
+                            itemsIndexed(playlist.songs) { index, song ->
+                                SongListCard(song, modifier = Modifier.fillMaxSize(), onSongCardClick = {
+                                    viewModel.onEvent(PlaylistDetailEvent.SelectAudio(index))
+                                }, isPlaying = state.isPlaying && state.currentlySelectedSong == song)
+                                Divider(color = EerieBlackLightTransparent)
+                            }
                         }
                     }
                 }
 
-
-
                 SongFullScreen(onClick = {
-                    viewModel.onEvent(HomeUiEvent.ToggleFullScreenMode)
+                    viewModel.onEvent(PlaylistDetailEvent.ToggleFullScreenMode)
                 },
-                    //swipeableState = swipeableState
                 )
             }
         }
     }
+
 }

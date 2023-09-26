@@ -88,6 +88,7 @@ object SongModule {
     fun providePlaylistUsecases(repository: PlaylistRepository): PlaylistUsecases {
         return PlaylistUsecases(
             getPlaylists = GetPlaylistsUsecase(repository),
+            getPlaylist = GetPlaylistUsecase(repository),
             createPlaylist = CreatePlaylistUsecase(repository),
             addSongsToPlaylist = AddSongsToPlaylistUsecase(repository)
         )

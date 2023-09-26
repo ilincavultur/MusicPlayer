@@ -12,6 +12,8 @@ import kotlinx.coroutines.flow.Flow
 interface PlaylistRepository {
     fun getPlaylistsWithSongs() : Flow<Resource<List<PlaylistWithSongs>>>
 
+    fun getPlaylistWithSongs(id: Int) : Flow<Resource<PlaylistWithSongs>>
+
     suspend fun createPlaylist(playlist: PlaylistEntity, songs: List<SongEntity>)
 
     suspend fun addSongsToPlaylist(playlist: PlaylistEntity, songs: List<SongEntity>)

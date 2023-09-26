@@ -27,6 +27,20 @@ class PlaylistRepositoryImpl @Inject constructor(
 
     }
 
+    override fun getPlaylistWithSongs(id: Int): Flow<Resource<PlaylistWithSongs>> = flow {
+        emit(Resource.Loading())
+
+        val playlist = dao.getPlaylistsWithSongs().map {
+            it.toPlaylistWithSongs()
+        }.first {
+            it.playlist.playlistId == id
+        }
+
+        emit(Resource.Loading(data = playlist))
+
+        emit(Resource.Success(playlist))
+    }
+
     // Create with or without songs
     override suspend fun createPlaylist(playlist: PlaylistEntity, songs: List<SongEntity>) {
         val playlistId = dao.insertPlaylist(playlist)

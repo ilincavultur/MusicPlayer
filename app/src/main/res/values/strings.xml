@@ -5,4 +5,6 @@
     <string name="song_list_screen">song_list_screen</string>
     <string name="play_song_screen">play_song_screen</string>
     <string name="playlist_screen">playlist_screen</string>
+    <string name="open_context_menu">open_context_menu</string>
+    <string name="playlist_detail_screen">playlist_detail_screen</string>
 </resources>
