@@ -9,20 +9,24 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.musicplayer.presentation.playlist.PlaylistScreenEvent
+import com.example.musicplayer.presentation.playlist.PlaylistScreenViewModel
 import com.example.musicplayer.ui.theme.*
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PlaylistDialog(
     onDismissRequest: () -> Unit,
-    onConfirmation: () -> Unit,
     dialogTitle: String,
     dialogText: String,
     updateText: (String) -> Unit,
-    userNameHasError: Boolean
+    viewModel: PlaylistScreenViewModel = hiltViewModel()
 ) {
+    val userNameHasError by viewModel.userNameHasError.collectAsStateWithLifecycle()
     AlertDialog(
         title = {
             Text(
@@ -37,14 +41,20 @@ fun PlaylistDialog(
         text = {
             OutlinedTextField(
                 value = dialogText,
-                onValueChange = { updateText(it) }
-            )
-            if (userNameHasError) {
-                Text(
-                    text = "The name may not be empty.",
-                    color = PurpleAccent
+                onValueChange = { updateText(it) },
+                supportingText = {
+                    Text(
+                        text = if (userNameHasError) "The name may not be empty." else "",
+                        color = PurpleAccent
+                    )
+                },
+                colors = TextFieldDefaults.outlinedTextFieldColors(
+                    focusedBorderColor = PurpleAccent,
+                    unfocusedBorderColor = EerieBlackLightTransparent,
+                    cursorColor = PurpleAccent,
+                    textColor = Color.White
                 )
-            }
+            )
         },
         onDismissRequest = {
             onDismissRequest()
@@ -52,14 +62,17 @@ fun PlaylistDialog(
         confirmButton = {
             TextButton(
                 onClick = {
-                    onConfirmation()
-                },
+                    if (!userNameHasError) {
+                        viewModel.onEvent(PlaylistScreenEvent.CreatePlaylist)
+                    }
+                }
             ) {
                 Text(
                     "Create",
                     style = TextStyle(
-                        color = PurpleAccent,
+                        color = Color.White,
                         fontFamily = valeraRound,
+                        fontWeight = FontWeight.Bold
                     )
                 )
             }

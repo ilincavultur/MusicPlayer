@@ -51,24 +51,15 @@ fun PlaylistScreen(
         }
     }
 
-    val userNameHasError by viewModel.userNameHasError.collectAsStateWithLifecycle()
-
     if (state.isCreateDialogOpen) {
         PlaylistDialog(
             onDismissRequest = { viewModel.onEvent(PlaylistScreenEvent.ToggleCreateDialog) },
-            onConfirmation = {
-                if (!userNameHasError) {
-                    viewModel.onEvent(PlaylistScreenEvent.CreatePlaylist)
-                }
-            },
             dialogTitle = "Choose a playlist name",
             dialogText = state.dialogText,
             updateText = {
                 viewModel.onEvent(PlaylistScreenEvent.UpdateDialogText(it))
             },
-            userNameHasError = userNameHasError
         )
     }
-
 
 }
