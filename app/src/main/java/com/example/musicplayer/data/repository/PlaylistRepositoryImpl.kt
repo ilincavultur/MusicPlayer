@@ -7,8 +7,8 @@ import com.example.musicplayer.domain.models.Playlist
 import com.example.musicplayer.domain.models.PlaylistWithSongs
 import com.example.musicplayer.domain.models.toPlaylistEntity
 import com.example.musicplayer.domain.repository.PlaylistRepository
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.*
+import java.lang.Thread.State
 import javax.inject.Inject
 
 class PlaylistRepositoryImpl @Inject constructor(
@@ -39,6 +39,16 @@ class PlaylistRepositoryImpl @Inject constructor(
         emit(Resource.Loading(data = playlist))
 
         emit(Resource.Success(playlist))
+    }
+
+    override suspend fun getPlaylistWithSongsStateFlow(id: Int): PlaylistWithSongs? {
+        val playlist = dao.getPlaylistsWithSongs().map {
+            it.toPlaylistWithSongs()
+        }.first {
+            it.playlist.playlistId == id
+        }
+
+        return playlist ?: null
     }
 
     // Create with or without songs

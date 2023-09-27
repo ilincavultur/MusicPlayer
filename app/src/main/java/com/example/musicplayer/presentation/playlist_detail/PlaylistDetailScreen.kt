@@ -14,11 +14,13 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.example.musicplayer.R
 import com.example.musicplayer.core.components.cards.CurrentlyPlayingBar
@@ -35,6 +37,7 @@ fun PlaylistDetailScreen(
     viewModel: PlaylistDetailViewModel = hiltViewModel()
 ) {
     val state = viewModel.state.value
+    //viewModel.filteredData.collectAsStateWithLifecycle()
 
     Surface(
         modifier = Modifier
@@ -59,11 +62,14 @@ fun PlaylistDetailScreen(
                 Scaffold(
                     topBar = {
                              TopAppBar {
-                                 state.playlistWithSongs?.let {
-                                     Text(text = it.playlist.playlistName, style = TextStyle(
-                                         color = Color.White
-                                     ))
-                                 }
+//                                 filteredData.let {
+//                                     Text(text = it.value.playlist.playlistName, style = TextStyle(
+//                                         color = Color.White
+//                                     ))
+//                                 }
+                                 Text(text = state.playlistWithSongs.playlist.playlistName, style = TextStyle(
+                                     color = Color.White
+                                 ))
                              }
                     },
                     bottomBar = {
@@ -89,7 +95,7 @@ fun PlaylistDetailScreen(
                     }
                 ) { paddingValues ->
 
-                    state.playlistWithSongs?.let { playlist ->
+                    state.playlistWithSongs.let { playlist ->
                         LazyColumn(
                             modifier = Modifier
                                 .fillMaxSize()

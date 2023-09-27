@@ -43,7 +43,6 @@ fun Navigation(
                         saveState = true
                     }
                     launchSingleTop = true
-                    restoreState = true
                 }
             })
         }

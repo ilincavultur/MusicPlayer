@@ -26,23 +26,30 @@ class PlaylistDetailViewModel @Inject constructor(
     private val playlistUsecases: PlaylistUsecases,
     private val playerEventListener: PlayerEventListener
 ) : ViewModel() {
-    private val playlistWithSongsId: Int = checkNotNull(savedStateHandle["playlistWithSongsId"])
-
-//    @OptIn(ExperimentalCoroutinesApi::class)
-//    val playlistData = playlistWithSongsId.flatMap {
-//
-//    }
+    
+    private val _state = mutableStateOf(PlaylistDetailState())
+    val state: State<PlaylistDetailState> = _state
 
     private val _eventFlow = MutableSharedFlow<PlaylistDetailEvent>()
     val eventFlow = _eventFlow.asSharedFlow()
 
-    private val _state = mutableStateOf(PlaylistDetailState())
-    val state: State<PlaylistDetailState> = _state
-
     private var searchJob: Job? = null
 
     init {
-        loadSongs(playlistWithSongsId.toInt())
+        savedStateHandle.get<Int>("playlistWithSongsId")?.let { playlistId ->
+            println("playlistWithSongsId: " + playlistId)
+            if(playlistId != -1) {
+//                viewModelScope.launch {
+//                    playlistUsecases.getPlaylistFlowUsecase(playlistId)?.also { playlist ->
+//                        playlistWithSongsId = playlist.playlist.playlistId
+//                        _state.value = state.value.copy(
+//                            playlistWithSongs = playlist
+//                        )
+//                    }
+//                }
+                loadSongs(playlistId)
+            }
+        }
     }
 
     private fun loadSongs(id: Int) {
@@ -54,19 +61,19 @@ class PlaylistDetailViewModel @Inject constructor(
                     when (result) {
                         is Resource.Error -> {
                             _state.value = state.value.copy(
-                                playlistWithSongs = result.data,
+                                playlistWithSongs = result.data ?: PlaylistWithSongs(Playlist(), emptyList()),
                                 isLoading = false
                             )
                         }
                         is Resource.Loading -> {
                             _state.value = state.value.copy(
-                                playlistWithSongs = result.data,
+                                playlistWithSongs = result.data ?: PlaylistWithSongs(Playlist(), emptyList()),
                                 isLoading = true
                             )
                         }
                         is Resource.Success -> {
                             _state.value = state.value.copy(
-                                playlistWithSongs = result.data,
+                                playlistWithSongs = result.data ?: PlaylistWithSongs(Playlist(), emptyList()),
                                 isLoading = false
                             )
                         }
