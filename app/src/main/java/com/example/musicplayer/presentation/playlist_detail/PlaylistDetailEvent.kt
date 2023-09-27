@@ -3,6 +3,7 @@ package com.example.musicplayer.presentation.playlist_detail
 import com.example.musicplayer.domain.models.Playlist
 import com.example.musicplayer.domain.models.Song
 import com.example.musicplayer.presentation.home.HomeUiEvent
+import com.example.musicplayer.presentation.playlist.PlaylistScreenEvent
 
 sealed class PlaylistDetailEvent {
     data class ShowSnackbar(val message: String) : PlaylistDetailEvent()
@@ -17,4 +18,7 @@ sealed class PlaylistDetailEvent {
     object Stop : PlaylistDetailEvent()
     data class UpdateProgress(val updatedProgress: Float) : PlaylistDetailEvent()
     object ToggleFullScreenMode : PlaylistDetailEvent()
+    object ToggleSelectSongsDialog: PlaylistDetailEvent()
+    data class CheckSong(val songId: Int, val checked: Boolean) : PlaylistDetailEvent()
+    object OnCancelSelectSongsClick: PlaylistDetailEvent()
 }

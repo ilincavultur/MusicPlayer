@@ -11,9 +11,9 @@ import com.example.musicplayer.domain.exoplayer.PlayerEventListener
 import com.example.musicplayer.domain.models.Playlist
 import com.example.musicplayer.domain.models.PlaylistWithSongs
 import com.example.musicplayer.domain.usecases.PlaylistUsecases
-import com.example.musicplayer.presentation.home.HomeUiEvent
+import com.example.musicplayer.domain.usecases.SongUsecases
+import com.google.protobuf.MapEntryLite
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
@@ -24,16 +24,18 @@ import javax.inject.Inject
 class PlaylistDetailViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val playlistUsecases: PlaylistUsecases,
+    private val songsUsecase: SongUsecases,
     private val playerEventListener: PlayerEventListener
 ) : ViewModel() {
-    
+
     private val _state = mutableStateOf(PlaylistDetailState())
     val state: State<PlaylistDetailState> = _state
 
     private val _eventFlow = MutableSharedFlow<PlaylistDetailEvent>()
     val eventFlow = _eventFlow.asSharedFlow()
 
-    private var searchJob: Job? = null
+    private var searchPlaylistSongs: Job? = null
+    private var searchAllSongs: Job? = null
 
     init {
         savedStateHandle.get<Int>("playlistWithSongsId")?.let { playlistId ->
@@ -47,14 +49,18 @@ class PlaylistDetailViewModel @Inject constructor(
 //                        )
 //                    }
 //                }
-                loadSongs(playlistId)
+                loadPlaylistSongs(playlistId)
             }
         }
     }
 
-    private fun loadSongs(id: Int) {
-        searchJob?.cancel()
-        searchJob = viewModelScope.launch {
+    init {
+        loadAllSongs()
+    }
+
+    private fun loadPlaylistSongs(id: Int) {
+        searchPlaylistSongs?.cancel()
+        searchPlaylistSongs = viewModelScope.launch {
             delay(500L)
             playlistUsecases.getPlaylist.invoke(id)
                 .onEach { result ->
@@ -74,6 +80,37 @@ class PlaylistDetailViewModel @Inject constructor(
                         is Resource.Success -> {
                             _state.value = state.value.copy(
                                 playlistWithSongs = result.data ?: PlaylistWithSongs(Playlist(), emptyList()),
+                                isLoading = false
+                            )
+                        }
+                    }
+                }.launchIn(this)
+        }
+    }
+
+    private fun loadAllSongs() {
+        searchAllSongs?.cancel()
+        searchAllSongs = viewModelScope.launch {
+            delay(500L)
+            songsUsecase.getSongs.invoke()
+                .onEach { result ->
+                    when (result) {
+                        is Resource.Error -> {
+                            _state.value = state.value.copy(
+                                songs = result.data ?: emptyList(),
+                                isLoading = false
+                            )
+
+                        }
+                        is Resource.Loading -> {
+                            _state.value = state.value.copy(
+                                songs = result.data ?: emptyList(),
+                                isLoading = true
+                            )
+                        }
+                        is Resource.Success -> {
+                            _state.value = state.value.copy(
+                                songs = result.data ?: emptyList(),
                                 isLoading = false
                             )
                         }
@@ -139,6 +176,28 @@ class PlaylistDetailViewModel @Inject constructor(
                 viewModelScope.launch {
                     playerEventListener.onEvent(PlayerEvent.SkipToPrevious)
                 }
+            }
+            PlaylistDetailEvent.ToggleSelectSongsDialog -> {
+                _state.value = state.value.copy(
+                    isSelectSongsDialogOpen = !state.value.isSelectSongsDialogOpen
+                )
+            }
+            is PlaylistDetailEvent.CheckSong -> {
+                if (state.value.checkedSongs[event.songId] != null) {
+                    _state.value = state.value.copy(
+                        checkedSongs = state.value.checkedSongs.minus(event.songId)
+                    )
+                } else {
+                    _state.value = state.value.copy(
+                        checkedSongs = state.value.checkedSongs.plus(Pair(event.songId, true))
+                    )
+                }
+            }
+            PlaylistDetailEvent.OnCancelSelectSongsClick -> {
+                _state.value = state.value.copy(
+                    checkedSongs = emptyMap(),
+                    isSelectSongsDialogOpen = !state.value.isSelectSongsDialogOpen
+                )
             }
         }
     }
