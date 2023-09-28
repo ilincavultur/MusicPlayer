@@ -7,9 +7,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Map
 import androidx.compose.material.icons.filled.PlaylistAdd
-import androidx.compose.material3.BottomAppBar
-import androidx.compose.material3.Icon
-import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -20,6 +18,7 @@ import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.unit.dp
 import com.example.musicplayer.core.navigation.Screen
 import com.example.musicplayer.ui.theme.EerieBlack
+import com.example.musicplayer.ui.theme.EerieBlackMedium
 import com.example.musicplayer.ui.theme.PurpleAccent
 
 @Composable
@@ -85,7 +84,11 @@ fun HomeBottomBar(
                     }
                 },
                 selected = isSelected,
-                onClick = { onClick(screen.route) }
+                onClick = { onClick(screen.route) },
+                colors = NavigationBarItemDefaults.colors(
+                    indicatorColor = EerieBlack,
+                    selectedIconColor = PurpleAccent
+                )
             )
         }
 
