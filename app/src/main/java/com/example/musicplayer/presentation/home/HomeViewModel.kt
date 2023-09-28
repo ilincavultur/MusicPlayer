@@ -45,7 +45,7 @@ class HomeViewModel @Inject constructor(
             playerEventListener.state.collectLatest { playerState ->
                 when (playerState) {
                     is PlayerState.Buffering -> {
-                        viewModelScope.launch {
+                        //viewModelScope.launch {
                             //val newProgress = calculateProgressValue(playerState.progress)
                             val newProgress = playerState.progress
                             _state.value = state.value.copy(
@@ -53,7 +53,7 @@ class HomeViewModel @Inject constructor(
                                 //progressString = formatDuration(newProgress.toLong())
                                 progressString = formatDurationFromMili(newProgress.toLong())
                             )
-                        }
+                        //}
                     }
                     is PlayerState.CurrentlyPlaying -> {
                         println("event listener currently playing idx " + playerState.mediaItemIdx)
@@ -74,7 +74,7 @@ class HomeViewModel @Inject constructor(
                         )
                     }
                     is PlayerState.Progress -> {
-                        viewModelScope.launch {
+                        //viewModelScope.launch {
                             val newProgress = calculateProgressValue(playerState.progress)
                             val newProgressString = formatDuration(state.value.progress.toLong())
                             withContext(Dispatchers.Main) {
@@ -83,7 +83,7 @@ class HomeViewModel @Inject constructor(
                                     progressString = newProgressString
                                 )
                             }
-                        }
+                        //}
                     }
                     is PlayerState.Ready -> {
                         _state.value = state.value.copy(

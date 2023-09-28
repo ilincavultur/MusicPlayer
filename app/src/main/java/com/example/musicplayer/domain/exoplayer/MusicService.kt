@@ -1,12 +1,16 @@
 package com.example.musicplayer.domain.exoplayer
 
+import android.content.ComponentName
 import android.content.Intent
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.media3.common.Player
 import androidx.media3.common.util.UnstableApi
+import androidx.media3.session.MediaController
 import androidx.media3.session.MediaSession
 import androidx.media3.session.MediaSessionService
+import androidx.media3.session.SessionToken
+import com.google.common.util.concurrent.MoreExecutors
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -18,6 +22,22 @@ class MusicService : MediaSessionService() {
 
     @Inject
     lateinit var notificationManager: com.example.musicplayer.domain.notification.MusicNotificationManager
+
+//    override fun onCreate() {
+//        super.onCreate()
+//        val sessionToken = SessionToken(this, ComponentName(this, MusicService::class.java))
+//        val controllerFuture = MediaController.Builder(this, sessionToken).buildAsync()
+//        controllerFuture.addListener(
+//            {
+//
+//                // Call controllerFuture.get() to retrieve the MediaController.
+//                // MediaController implements the Player interface, so it can be
+//                // attached to the PlayerView UI component.
+//                //playerView.setPlayer(controllerFuture.get())
+//            },
+//            MoreExecutors.directExecutor()
+//        )
+//    }
 
     @RequiresApi(Build.VERSION_CODES.O)
     @UnstableApi

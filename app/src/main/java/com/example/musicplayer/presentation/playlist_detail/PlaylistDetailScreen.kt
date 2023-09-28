@@ -16,7 +16,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.musicplayer.R
-import com.example.musicplayer.core.components.cards.CurrentlyPlayingBar
+import com.example.musicplayer.presentation.song_bar.CurrentlyPlayingBar
 import com.example.musicplayer.core.components.cards.SongListCard
 import com.example.musicplayer.core.components.dialog.SelectSongsDialog
 import com.example.musicplayer.presentation.song.SongFullScreen
@@ -69,27 +69,27 @@ fun PlaylistDetailScreen(
                                 }
                              )
                     },
-                    bottomBar = {
-                        state.currentlySelectedSong?.let {
-                            if (!state.isInFullScreenMode) {
-                                CurrentlyPlayingBar(
-                                    Modifier,
-                                    onClick = {
-                                        viewModel.onEvent(PlaylistDetailEvent.ToggleFullScreenMode)
-                                    },
-                                    onPlayIconClick = {
-                                        viewModel.onEvent(PlaylistDetailEvent.PlayPause)
-                                    },
-                                    song = it,
-                                    playPauseIcon = if (state.isPlaying) {
-                                        R.drawable.ic_baseline_pause_24
-                                    } else {
-                                        R.drawable.ic_baseline_play_arrow_24
-                                    }
-                                )
-                            }
-                        }
-                    },
+//                    bottomBar = {
+//                        state.currentlySelectedSong?.let {
+//                            if (!state.isInFullScreenMode) {
+//                                CurrentlyPlayingBar(
+//                                    Modifier,
+//                                    onClick = {
+//                                        viewModel.onEvent(PlaylistDetailEvent.ToggleFullScreenMode)
+//                                    },
+//                                    onPlayIconClick = {
+//                                        viewModel.onEvent(PlaylistDetailEvent.PlayPause)
+//                                    },
+//                                    song = it,
+//                                    playPauseIcon = if (state.isPlaying) {
+//                                        R.drawable.ic_baseline_pause_24
+//                                    } else {
+//                                        R.drawable.ic_baseline_play_arrow_24
+//                                    }
+//                                )
+//                            }
+//                        }
+//                    },
                     floatingActionButton = {
                         IconButton(onClick = { viewModel.onEvent(PlaylistDetailEvent.ToggleSelectSongsDialog) }) {
                             Icon(painter = painterResource(id = R.drawable.ic_baseline_add_24), contentDescription = "add_songs")
@@ -133,11 +133,12 @@ fun PlaylistDetailScreen(
 
                 }
 
-                SongFullScreen(
-                    onClick = {
-                        viewModel.onEvent(PlaylistDetailEvent.ToggleFullScreenMode)
-                    },
-                )
+//                SongFullScreen(
+//                    onClick = {
+//                        viewModel.onEvent(PlaylistDetailEvent.ToggleFullScreenMode)
+//                    },
+//                    modifier = Mod
+//                )
 
             }
         }

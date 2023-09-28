@@ -28,14 +28,19 @@ import com.example.musicplayer.core.components.cards.SongTitleText
 import com.example.musicplayer.presentation.home.HomeState
 import com.example.musicplayer.presentation.home.HomeUiEvent
 import com.example.musicplayer.presentation.home.HomeViewModel
+import com.example.musicplayer.presentation.song_bar.SongBarEvent
+import com.example.musicplayer.presentation.song_bar.SongBarState
+import com.example.musicplayer.presentation.song_bar.SongBarViewModel
 import com.example.musicplayer.ui.theme.EerieBlack
 import com.example.musicplayer.ui.theme.EerieBlackLight
 
 
 @Composable
 fun SongFullScreen(
-    viewModel: HomeViewModel = hiltViewModel(),
+    //viewModel: HomeViewModel = hiltViewModel(),
+    viewModel: SongBarViewModel = hiltViewModel(),
     onClick: () -> Unit,
+    paddingValues: PaddingValues
     //swipeableState: SwipeableState<Int>
 ) {
     val state = viewModel.state.value
@@ -64,10 +69,10 @@ fun SongFullScreen(
                 durationMillis = animationTime,
                 easing = LinearEasing
             )
-        )
+        ),
     ) {
            Column(
-               modifier = Modifier.fillMaxSize()
+               modifier = Modifier.fillMaxSize().padding(paddingValues)
                    //.offset { IntOffset(swipeableState.offset.value.roundToInt(), 0) }
 
            ) {
@@ -141,7 +146,8 @@ fun SongFullScreen(
                            state = state,
                            onSliderPositionChange = {
                                localSliderValue = it
-                               viewModel.onEvent(HomeUiEvent.UpdateProgress(localSliderValue))
+                               //viewModel.onEvent(HomeUiEvent.UpdateProgress(localSliderValue))
+                               viewModel.onEvent(SongBarEvent.UpdateProgress(localSliderValue))
                            },
                        )
                    }
@@ -165,7 +171,8 @@ fun SongCoverPreview(
 
 @Composable
 fun SongSlider(
-    state: HomeState,
+    //state: HomeState,
+    state: SongBarState,
     onSliderPositionChange: (Float) -> Unit,
 ) {
     val totalTime = state.currentlySelectedSongString

@@ -30,10 +30,6 @@ fun PlaylistScreen(
     val state = viewModel.state.value
     val haptics = LocalHapticFeedback.current
     val coroutineScope = rememberCoroutineScope()
-//    val modalBottomSheetState = rememberModalBottomSheetState(
-//        initialValue = ModalBottomSheetValue.Hidden,
-//        confirmStateChange = { it != ModalBottomSheetValue.HalfExpanded },
-//    )
 
     LazyVerticalGrid(
         modifier = Modifier.fillMaxSize(),
@@ -53,13 +49,6 @@ fun PlaylistScreen(
                 onCardLongClick = {
                     haptics.performHapticFeedback(HapticFeedbackType.LongPress)
                     viewModel.onEvent(PlaylistScreenEvent.OnCardLongClick(playlist.playlist.playlistId ?: -1))
-
-//                    coroutineScope.launch {
-//                        if (modalSheetState.isVisible)
-//                            modalSheetState.hide()
-//                        else
-//                            modalSheetState.animateTo(ModalBottomSheetValue.Expanded)
-//                    }
                 }
             )
         }
@@ -77,13 +66,9 @@ fun PlaylistScreen(
         PlaylistActionsSheet(
             playlistWithSongs = state.playlists.first { it.playlist.playlistId == state.contextMenuPlaylistId },
             onDeleteButtonClick = {
-                                  //viewModel.onEvent(PlaylistScreenEvent.DeletePlaylist(contextMenuPlaylistId!!.toInt()))
                 viewModel.onEvent(PlaylistScreenEvent.DeletePlaylist)
-
-                //coroutineScope.launch { modalSheetState.hide() }
             },
             onDismissSheet = { viewModel.onEvent(PlaylistScreenEvent.OnDismissSheet) },
-            //modalSheetState = modalBottomSheetState,
             coroutineScope = coroutineScope
         )
     }

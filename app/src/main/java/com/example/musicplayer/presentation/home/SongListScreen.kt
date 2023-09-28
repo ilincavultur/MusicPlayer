@@ -13,7 +13,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.example.musicplayer.core.components.cards.CurrentlyPlayingBar
+import com.example.musicplayer.R
+import com.example.musicplayer.presentation.song_bar.CurrentlyPlayingBar
 import com.example.musicplayer.core.components.cards.SongListCard
 import com.example.musicplayer.presentation.home.HomeUiEvent
 import com.example.musicplayer.presentation.home.HomeViewModel
@@ -50,27 +51,27 @@ fun SongListScreen(
             }
             false -> {
                 Scaffold(
-                    bottomBar = {
-                        state.currentlySelectedSong?.let {
-                            if (!state.isInFullScreenMode) {
-                                CurrentlyPlayingBar(
-                                    Modifier,
-                                    onClick = {
-                                        viewModel.onEvent(HomeUiEvent.ToggleFullScreenMode)
-                                    },
-                                    onPlayIconClick = {
-                                        viewModel.onEvent(HomeUiEvent.PlayPause)
-                                    },
-                                    song = it,
-                                    playPauseIcon = if (state.isPlaying) {
-                                        com.example.musicplayer.R.drawable.ic_baseline_pause_24
-                                    } else {
-                                        com.example.musicplayer.R.drawable.ic_baseline_play_arrow_24
-                                    }
-                                )
-                            }
-                        }
-                    }
+//                    bottomBar = {
+//                        state.currentlySelectedSong?.let {
+//                            if (!state.isInFullScreenMode) {
+//                                CurrentlyPlayingBar(
+//                                    Modifier,
+//                                    onClick = {
+//                                        viewModel.onEvent(HomeUiEvent.ToggleFullScreenMode)
+//                                    },
+//                                    onPlayIconClick = {
+//                                        viewModel.onEvent(HomeUiEvent.PlayPause)
+//                                    },
+//                                    song = it,
+//                                    playPauseIcon = if (state.isPlaying) {
+//                                        R.drawable.ic_baseline_pause_24
+//                                    } else {
+//                                        R.drawable.ic_baseline_play_arrow_24
+//                                    }
+//                                )
+//                            }
+//                        }
+//                    }
                 ) {
 
                     LazyColumn(
@@ -88,11 +89,11 @@ fun SongListScreen(
                     }
                 }
 
-                SongFullScreen(
-                    onClick = {
-                        viewModel.onEvent(HomeUiEvent.ToggleFullScreenMode)
-                    },
-                )
+//                SongFullScreen(
+//                    onClick = {
+//                        viewModel.onEvent(HomeUiEvent.ToggleFullScreenMode)
+//                    },
+//                )
             }
         }
     }
