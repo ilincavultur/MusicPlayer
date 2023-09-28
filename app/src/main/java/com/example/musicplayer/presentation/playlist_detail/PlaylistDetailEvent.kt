@@ -21,4 +21,5 @@ sealed class PlaylistDetailEvent {
     object ToggleSelectSongsDialog: PlaylistDetailEvent()
     data class CheckSong(val songId: Int, val checked: Boolean) : PlaylistDetailEvent()
     object OnCancelSelectSongsClick: PlaylistDetailEvent()
+    object AddToPlaylist: PlaylistDetailEvent()
 }

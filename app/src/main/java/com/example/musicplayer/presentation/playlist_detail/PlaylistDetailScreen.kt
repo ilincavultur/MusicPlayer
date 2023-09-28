@@ -4,34 +4,34 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.material.*
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Divider
-import androidx.compose.material3.Surface
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.musicplayer.R
 import com.example.musicplayer.core.components.cards.CurrentlyPlayingBar
 import com.example.musicplayer.core.components.cards.SongListCard
 import com.example.musicplayer.core.components.dialog.SelectSongsDialog
-import com.example.musicplayer.presentation.SongFullScreen
+import com.example.musicplayer.presentation.song.SongFullScreen
 import com.example.musicplayer.ui.theme.EerieBlack
 import com.example.musicplayer.ui.theme.EerieBlackLightTransparent
 import com.example.musicplayer.ui.theme.PurpleAccent
+import com.example.musicplayer.ui.theme.valeraRound
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PlaylistDetailScreen(
     navController: NavController,
     viewModel: PlaylistDetailViewModel = hiltViewModel()
 ) {
     val state = viewModel.state.value
-    //viewModel.filteredData.collectAsStateWithLifecycle()
 
     Surface(
         modifier = Modifier
@@ -55,16 +55,19 @@ fun PlaylistDetailScreen(
             false -> {
                 Scaffold(
                     topBar = {
-                             TopAppBar {
-//                                 filteredData.let {
-//                                     Text(text = it.value.playlist.playlistName, style = TextStyle(
-//                                         color = Color.White
-//                                     ))
-//                                 }
-                                 Text(text = state.playlistWithSongs.playlist.playlistName, style = TextStyle(
-                                     color = Color.White
-                                 ))
-                             }
+                             TopAppBar(
+                                title = {
+                                    Text(
+                                        text = state.playlistWithSongs.playlist.playlistName,
+                                        style = TextStyle(
+                                            color = Color.White,
+                                            fontFamily = valeraRound,
+                                            fontSize = 30.sp
+                                        ),
+                                        modifier = Modifier.padding(10.dp)
+                                    )
+                                }
+                             )
                     },
                     bottomBar = {
                         state.currentlySelectedSong?.let {
@@ -94,26 +97,21 @@ fun PlaylistDetailScreen(
                     }
                 ) { paddingValues ->
 
-
-                        state.playlistWithSongs.let { playlist ->
-                            LazyColumn(
-                                modifier = Modifier
-                                    .fillMaxSize()
-                                    .background(color = EerieBlack)
-                                    .padding(paddingValues)
-                            ) {
-                                itemsIndexed(playlist.songs) { index, song ->
-                                    SongListCard(song, modifier = Modifier.fillMaxSize(), onSongCardClick = {
-                                        viewModel.onEvent(PlaylistDetailEvent.SelectAudio(index))
-                                    }, isPlaying = state.isPlaying && state.currentlySelectedSong == song)
-                                    Divider(color = EerieBlackLightTransparent)
-                                }
+                    state.playlistWithSongs.let { playlist ->
+                        LazyColumn(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .background(color = EerieBlack)
+                                .padding(paddingValues)
+                        ) {
+                            itemsIndexed(playlist.songs) { index, song ->
+                                SongListCard(song, modifier = Modifier.fillMaxSize(), onSongCardClick = {
+                                    viewModel.onEvent(PlaylistDetailEvent.SelectAudio(index))
+                                }, isPlaying = state.isPlaying && state.currentlySelectedSong == song)
+                                Divider(color = EerieBlackLightTransparent)
                             }
-
                         }
-
-
-
+                    }
 
                     if (state.isSelectSongsDialogOpen) {
                         SelectSongsDialog(
@@ -127,17 +125,20 @@ fun PlaylistDetailScreen(
                             onCheckedChanged = { songId, checked ->
                               viewModel.onEvent(PlaylistDetailEvent.CheckSong(songId, checked))
                             },
-                            onAddToPlaylistClick = {},
+                            onAddToPlaylistClick = {
+                                viewModel.onEvent(PlaylistDetailEvent.AddToPlaylist)
+                            },
                         )
                     }
 
                 }
 
+                SongFullScreen(
+                    onClick = {
+                        viewModel.onEvent(PlaylistDetailEvent.ToggleFullScreenMode)
+                    },
+                )
 
-//                SongFullScreen(onClick = {
-//                    viewModel.onEvent(PlaylistDetailEvent.ToggleFullScreenMode)
-//                },
-//                )
             }
         }
     }

@@ -1,37 +1,27 @@
 package com.example.musicplayer.presentation
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.slideInVertically
-import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.background
-import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.FractionalThreshold
-import androidx.compose.material.swipeable
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.musicplayer.core.components.cards.CurrentlyPlayingBar
 import com.example.musicplayer.core.components.cards.SongListCard
 import com.example.musicplayer.presentation.home.HomeUiEvent
 import com.example.musicplayer.presentation.home.HomeViewModel
+import com.example.musicplayer.presentation.song.SongFullScreen
 import com.example.musicplayer.ui.theme.EerieBlack
 import com.example.musicplayer.ui.theme.EerieBlackLightTransparent
 import com.example.musicplayer.ui.theme.PurpleAccent
 
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun SongListScreen(
     navController: NavController,
@@ -59,7 +49,7 @@ fun SongListScreen(
                 }
             }
             false -> {
-                androidx.compose.material.Scaffold(
+                Scaffold(
                     bottomBar = {
                         state.currentlySelectedSong?.let {
                             if (!state.isInFullScreenMode) {
@@ -98,12 +88,10 @@ fun SongListScreen(
                     }
                 }
 
-
-
-                SongFullScreen(onClick = {
-                    viewModel.onEvent(HomeUiEvent.ToggleFullScreenMode)
-                },
-                    //swipeableState = swipeableState
+                SongFullScreen(
+                    onClick = {
+                        viewModel.onEvent(HomeUiEvent.ToggleFullScreenMode)
+                    },
                 )
             }
         }

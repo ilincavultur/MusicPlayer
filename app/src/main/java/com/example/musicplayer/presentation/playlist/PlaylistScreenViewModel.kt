@@ -111,6 +111,27 @@ class PlaylistScreenViewModel @Inject constructor(
                     dialogText = event.playlistName
                 )
             }
+            is PlaylistScreenEvent.DeletePlaylist -> {
+                if ( state.value.contextMenuPlaylistId != null ) {
+                    viewModelScope.launch {
+                        playlistUsecases.deletePlaylist(state.value.contextMenuPlaylistId!!)
+                        loadPlaylists()
+                    }
+                    _state.value = state.value.copy(
+                        contextMenuPlaylistId = null
+                    )
+                }
+            }
+            is PlaylistScreenEvent.OnCardLongClick -> {
+                _state.value = state.value.copy(
+                    contextMenuPlaylistId = event.playlistId
+                )
+            }
+            PlaylistScreenEvent.OnDismissSheet -> {
+                _state.value = state.value.copy(
+                    contextMenuPlaylistId = null
+                )
+            }
         }
     }
 }

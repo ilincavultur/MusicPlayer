@@ -52,7 +52,7 @@ fun PlaylistDialog(
                     focusedBorderColor = PurpleAccent,
                     unfocusedBorderColor = EerieBlackLightTransparent,
                     cursorColor = PurpleAccent,
-                    textColor = Color.White
+                    focusedTextColor = Color.White
                 )
             )
         },

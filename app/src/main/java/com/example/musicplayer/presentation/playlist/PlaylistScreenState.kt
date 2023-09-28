@@ -8,4 +8,5 @@ data class PlaylistScreenState(
     val isCreateDialogOpen: Boolean = false,
     val dialogText: String = "",
     val isError: Boolean = false,
+    val contextMenuPlaylistId: Int? = null
 )

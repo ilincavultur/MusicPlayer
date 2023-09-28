@@ -1,6 +1,7 @@
 package com.example.musicplayer.ui.theme
 
-import androidx.compose.material.Typography
+
+import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -16,11 +17,11 @@ val nunitoFamily = FontFamily(
 val valeraRound = FontFamily(
     Font(R.font.varelaround_regular, FontWeight.Normal),)
 val Typography = Typography(
-    body1 = TextStyle(
-        fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.Normal,
-        fontSize = 16.sp
-    )
+//    body1 = TextStyle(
+//        fontFamily = FontFamily.Default,
+//        fontWeight = FontWeight.Normal,
+//        fontSize = 16.sp
+//    )
     /* Other default text styles to override
     button = TextStyle(
         fontFamily = FontFamily.Default,

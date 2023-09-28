@@ -2,16 +2,14 @@ package com.example.musicplayer.core.components.bottom
 
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material.BottomAppBar
-import androidx.compose.material.BottomNavigationItem
-import androidx.compose.material.Icon
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Map
 import androidx.compose.material.icons.filled.PlaylistAdd
+import androidx.compose.material3.BottomAppBar
+import androidx.compose.material3.Icon
+import androidx.compose.material3.NavigationBarItem
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -22,6 +20,7 @@ import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.unit.dp
 import com.example.musicplayer.core.navigation.Screen
 import com.example.musicplayer.ui.theme.EerieBlack
+import com.example.musicplayer.ui.theme.PurpleAccent
 
 @Composable
 fun HomeBottomBar(
@@ -41,8 +40,11 @@ fun HomeBottomBar(
         ),
     )
     BottomAppBar(
-        backgroundColor = EerieBlack
+        containerColor = EerieBlack,
+        contentColor = PurpleAccent,
+        modifier = Modifier.height(70.dp)
     ) {
+
         items.forEach { screen ->
             val isSelected = currentDestination == screen.route
 
@@ -53,14 +55,14 @@ fun HomeBottomBar(
                 )
             )
 
-            BottomNavigationItem(
+            NavigationBarItem(
                 icon = {
                     Box(
                         modifier = Modifier
                             .fillMaxSize()
                             .padding(10.dp)
                             .drawBehind {
-                                if(lineLength.value > 0f) {
+                                if (lineLength.value > 0f) {
                                     drawLine(
                                         color = if (isSelected) Color.White
                                         else Color.White,
@@ -86,5 +88,6 @@ fun HomeBottomBar(
                 onClick = { onClick(screen.route) }
             )
         }
+
     }
 }

@@ -1,31 +1,26 @@
-package com.example.musicplayer.presentation
+package com.example.musicplayer.presentation.song
 
 import android.content.Context
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.tween
-import androidx.compose.animation.shrinkVertically
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.gestures.Orientation
-import androidx.compose.foundation.gestures.draggable
-import androidx.compose.foundation.gestures.rememberDraggableState
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.Slider
+import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.musicplayer.R
 import com.example.musicplayer.core.components.cards.SongArtistText
@@ -34,11 +29,9 @@ import com.example.musicplayer.presentation.home.HomeState
 import com.example.musicplayer.presentation.home.HomeUiEvent
 import com.example.musicplayer.presentation.home.HomeViewModel
 import com.example.musicplayer.ui.theme.EerieBlack
-import com.example.musicplayer.ui.theme.EerieBlackExtraLight
 import com.example.musicplayer.ui.theme.EerieBlackLight
-import kotlin.math.roundToInt
 
-@OptIn(ExperimentalMaterialApi::class)
+
 @Composable
 fun SongFullScreen(
     viewModel: HomeViewModel = hiltViewModel(),

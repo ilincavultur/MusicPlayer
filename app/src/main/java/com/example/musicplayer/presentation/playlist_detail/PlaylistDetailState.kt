@@ -18,3 +18,8 @@ data class PlaylistDetailState(
     val isSelectSongsDialogOpen: Boolean = false,
     val checkedSongs: Map<Int, Boolean> = emptyMap()
 )
+
+sealed class PlaylistUiState {
+    object Initial : PlaylistUiState()
+    object Ready : PlaylistUiState()
+}

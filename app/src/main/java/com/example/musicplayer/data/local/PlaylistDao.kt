@@ -20,4 +20,7 @@ interface PlaylistDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertPlaylistSongCrossRef(PlaylistSongCrossRef: PlaylistSongCrossRefEntity) : Long
+
+    @Query("DELETE FROM playlist_entity WHERE playlistId=:id")
+    suspend fun deletePlaylist(id: Int)
 }

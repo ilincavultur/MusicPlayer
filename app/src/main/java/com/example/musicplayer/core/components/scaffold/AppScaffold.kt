@@ -9,6 +9,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.BookmarkBorder
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Map
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCompositionContext
@@ -32,34 +33,35 @@ import com.example.musicplayer.core.navigation.Screen
 import com.example.musicplayer.ui.theme.EerieBlack
 
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppScaffold(
 
 ) {
     val navController = rememberNavController()
-    val scaffoldState = rememberScaffoldState()
-    val snackbarHost = rememberScaffoldState()
+    //val scaffoldState = rememberScaffoldState()
+    //val snackbarHost =
     val navBackStackEntry by navController.currentBackStackEntryAsState()
 
     Scaffold(
-        drawerBackgroundColor = EerieBlack,
-        drawerContentColor = EerieBlack,
         contentColor = EerieBlack,
-        drawerScrimColor = EerieBlack,
-        backgroundColor = EerieBlack,
+        containerColor = EerieBlack,
         snackbarHost = {
-            SnackbarHost(hostState = snackbarHost.snackbarHostState)
+            //SnackbarHost(hostState = snackbarHost.snackbarHostState)
         },
         topBar = {
             if (navBackStackEntry?.destination?.route !in listOf(
                     Screen.SplashScreen.route,
             )) {
                 TopAppBar(
-                    backgroundColor = EerieBlack,
-                    modifier = Modifier.height(45.dp)
-                ) {
+                    modifier = Modifier.height(45.dp),
+                    colors = TopAppBarDefaults.topAppBarColors(
+                        containerColor = EerieBlack,
+                    ),
+                    title = {
 
-                }
+                    }
+                )
             }
         },
         bottomBar = {
@@ -80,8 +82,8 @@ fun AppScaffold(
                 )
             }
         },
-        scaffoldState = scaffoldState,
+        //scaffoldState = scaffoldState,
     ) { innerPadding ->
-        Navigation(navController = navController, innerPadding = innerPadding, snackbarHostState = snackbarHost.snackbarHostState)
+        Navigation(navController = navController, innerPadding = innerPadding)
     }
 }

@@ -4,15 +4,8 @@ import android.content.ComponentName
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.media3.exoplayer.ExoPlayer
+
 import androidx.media3.session.MediaController
 import androidx.media3.session.SessionToken
 import com.example.musicplayer.core.components.scaffold.AppScaffold

@@ -37,9 +37,7 @@ fun PlaylistCard(
             .background(color = EerieBlackMedium, shape = RoundedCornerShape(size = 4.dp))
             .combinedClickable(
                 onClick = { onCardClick(playlistId) },
-                onLongClick = {
-                    onCardLongClick
-                },
+                onLongClick = onCardLongClick,
                 onLongClickLabel = stringResource(R.string.open_context_menu)
             )
         ,

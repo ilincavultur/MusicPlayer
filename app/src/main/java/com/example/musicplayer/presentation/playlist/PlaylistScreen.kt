@@ -1,38 +1,25 @@
 package com.example.musicplayer.presentation.playlist
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.itemsIndexed
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Create
-import androidx.compose.material.icons.filled.Info
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Color.Companion.Red
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import androidx.navigation.NavGraph.Companion.findStartDestination
 import com.example.musicplayer.core.components.cards.PlaylistActionsSheet
 import com.example.musicplayer.core.components.cards.PlaylistAddCard
 import com.example.musicplayer.core.components.cards.PlaylistCard
 import com.example.musicplayer.core.components.dialog.PlaylistDialog
-import com.example.musicplayer.core.navigation.Screen
-import com.example.musicplayer.ui.theme.PurpleAccent
+import kotlinx.coroutines.launch
+
 
 @Composable
 fun PlaylistScreen(
@@ -41,9 +28,12 @@ fun PlaylistScreen(
     onNavigateToPlaylistDetails: (Int) -> Unit,
 ) {
     val state = viewModel.state.value
-
-    var contextMenuPhotoId by rememberSaveable { mutableStateOf<Int?>(null) }
     val haptics = LocalHapticFeedback.current
+    val coroutineScope = rememberCoroutineScope()
+//    val modalBottomSheetState = rememberModalBottomSheetState(
+//        initialValue = ModalBottomSheetValue.Hidden,
+//        confirmStateChange = { it != ModalBottomSheetValue.HalfExpanded },
+//    )
 
     LazyVerticalGrid(
         modifier = Modifier.fillMaxSize(),
@@ -62,7 +52,14 @@ fun PlaylistScreen(
                 },
                 onCardLongClick = {
                     haptics.performHapticFeedback(HapticFeedbackType.LongPress)
-                    contextMenuPhotoId = playlist.playlist.playlistId
+                    viewModel.onEvent(PlaylistScreenEvent.OnCardLongClick(playlist.playlist.playlistId ?: -1))
+
+//                    coroutineScope.launch {
+//                        if (modalSheetState.isVisible)
+//                            modalSheetState.hide()
+//                        else
+//                            modalSheetState.animateTo(ModalBottomSheetValue.Expanded)
+//                    }
                 }
             )
         }
@@ -75,10 +72,19 @@ fun PlaylistScreen(
         }
     }
 
-    if (contextMenuPhotoId != null) {
+
+    if (state.contextMenuPlaylistId != null && state.contextMenuPlaylistId != -1) {
         PlaylistActionsSheet(
-            playlistWithSongs = state.playlists.first { it.playlist.playlistId == contextMenuPhotoId },
-            onDismissSheet = { contextMenuPhotoId = null }
+            playlistWithSongs = state.playlists.first { it.playlist.playlistId == state.contextMenuPlaylistId },
+            onDeleteButtonClick = {
+                                  //viewModel.onEvent(PlaylistScreenEvent.DeletePlaylist(contextMenuPlaylistId!!.toInt()))
+                viewModel.onEvent(PlaylistScreenEvent.DeletePlaylist)
+
+                //coroutineScope.launch { modalSheetState.hide() }
+            },
+            onDismissSheet = { viewModel.onEvent(PlaylistScreenEvent.OnDismissSheet) },
+            //modalSheetState = modalBottomSheetState,
+            coroutineScope = coroutineScope
         )
     }
 

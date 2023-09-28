@@ -9,4 +9,7 @@ sealed class PlaylistScreenEvent {
     data class AddSongsToPlaylist(val playlist: Playlist, val songs: List<Song>) : PlaylistScreenEvent()
     object ToggleCreateDialog: PlaylistScreenEvent()
     data class UpdateDialogText(val playlistName: String) : PlaylistScreenEvent()
+    data class OnCardLongClick(val playlistId: Int) : PlaylistScreenEvent()
+    object DeletePlaylist : PlaylistScreenEvent()
+    object OnDismissSheet : PlaylistScreenEvent()
 }

@@ -2,14 +2,14 @@ package com.example.musicplayer.ui.theme
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.darkColors
-import androidx.compose.material.lightColors
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Shapes
+import androidx.compose.material3.darkColorScheme
+import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 
-private val DarkColorPalette = darkColors(
+private val DarkColorPalette = darkColorScheme (
     primary = PurpleAccent,
-    primaryVariant = PurpleAccent,
     secondary = PurpleAccent,
     background = EerieBlack,
     surface = PurpleAccent,
@@ -18,9 +18,9 @@ private val DarkColorPalette = darkColors(
 )
 
 @SuppressLint("ConflictingOnColor")
-private val LightColorPalette = lightColors(
+private val LightColorPalette = lightColorScheme (
     primary = PurpleAccent,
-    primaryVariant = PurpleAccent,
+    //primaryVariant = PurpleAccent,
     secondary = PurpleAccent,
     background = EerieBlack,
     surface = EerieBlack,
@@ -48,9 +48,11 @@ fun MusicPlayerTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Compo
     }
 
     MaterialTheme(
-        colors = colors,
+        colorScheme = colors,
         typography = Typography,
-        shapes = Shapes,
+        shapes = Shapes(
+
+        ),
         content = content
     )
 }

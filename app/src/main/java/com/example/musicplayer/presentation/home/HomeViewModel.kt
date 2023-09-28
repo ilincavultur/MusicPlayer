@@ -23,7 +23,6 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     private val songsUsecase: GetSongsUsecase,
     private val playerEventListener: PlayerEventListener,
-    //private val controller: MediaController
 ) : ViewModel() {
 
     private val _eventFlow = MutableSharedFlow<HomeUiEvent>()
@@ -57,6 +56,7 @@ class HomeViewModel @Inject constructor(
                         }
                     }
                     is PlayerState.CurrentlyPlaying -> {
+                        println("event listener currently playing idx " + playerState.mediaItemIdx)
                         _state.value = state.value.copy(
                             currentlySelectedSong = state.value.songs[playerState.mediaItemIdx],
                             //currentlySelectedSongString = formatDuration(state.value.songs[playerState.mediaItemIdx].duration?.toLong() ?: 0)

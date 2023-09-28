@@ -91,7 +91,8 @@ object SongModule {
             getPlaylist = GetPlaylistUsecase(repository),
             getPlaylistFlowUsecase = GetPlaylistStateFlowUsecase(repository),
             createPlaylist = CreatePlaylistUsecase(repository),
-            addSongsToPlaylist = AddSongsToPlaylistUsecase(repository)
+            addSongsToPlaylist = AddSongsToPlaylistUsecase(repository),
+            deletePlaylist = DeletePlaylistUsecase(repository)
         )
     }
 
