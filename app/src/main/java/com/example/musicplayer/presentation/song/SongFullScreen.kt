@@ -37,11 +37,8 @@ import com.example.musicplayer.ui.theme.EerieBlackLight
 
 @Composable
 fun SongFullScreen(
-    //viewModel: HomeViewModel = hiltViewModel(),
     viewModel: SongBarViewModel = hiltViewModel(),
     onClick: () -> Unit,
-    //paddingValues: PaddingValues
-    //swipeableState: SwipeableState<Int>
 ) {
     val state = viewModel.state.value
     val currentlySelectedSong = state.currentlySelectedSong
@@ -49,8 +46,6 @@ fun SongFullScreen(
 
     var localSliderValue by remember { mutableStateOf(0f) }
     val animationTime = 300
-
-
 
     AnimatedVisibility(
         visible = state.isInFullScreenMode && (state.currentlySelectedSong != null),
@@ -72,8 +67,9 @@ fun SongFullScreen(
         ),
     ) {
            Column(
-               modifier = Modifier.fillMaxSize()//.padding(paddingValues)
-                   //.offset { IntOffset(swipeableState.offset.value.roundToInt(), 0) }
+               modifier = Modifier.fillMaxSize(),
+                   //.padding(top = 35.dp),
+               verticalArrangement = Arrangement.Center
 
            ) {
 
@@ -88,16 +84,12 @@ fun SongFullScreen(
                                onClick()
                            }
                ) {
-//                   Column(
-//                       modifier = Modifier
-//                           .fillMaxWidth()
-//                   ) {
-                       IconButton(onClick = {
-                           onClick()
-                       }) {
-                           Icon(painter = painterResource(id = R.drawable.ic_baseline_keyboard_arrow_down_24), contentDescription = "minimize_current_song", tint = EerieBlackLight)
-                       }
-                   //}
+                   IconButton(onClick = {
+                       onClick()
+                   }) {
+                       Icon(painter = painterResource(id = R.drawable.ic_baseline_keyboard_arrow_down_24), contentDescription = "minimize_current_song", tint = EerieBlackLight)
+                   }
+
                }
 
                Row(

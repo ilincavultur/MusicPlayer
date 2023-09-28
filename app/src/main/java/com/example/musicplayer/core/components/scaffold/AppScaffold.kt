@@ -53,8 +53,7 @@ fun AppScaffold(
                 )) {
                 Column {
                     CurrentlyPlayingBar(
-                        //paddingValues = innerPadding,
-                        Modifier//.padding(innerPadding)
+                        Modifier
                     )
                     HomeBottomBar(
                         currentDestination = navBackStackEntry?.destination?.route,
@@ -71,23 +70,7 @@ fun AppScaffold(
                 }
             }
         },
-        //scaffoldState = scaffoldState,
     ) { innerPadding ->
-
         Navigation(navController = navController, innerPadding = innerPadding)
-
-//        if (navBackStackEntry?.destination?.route !in listOf(
-//                    Screen.SplashScreen.route,
-//                )) {
-//                CurrentlyPlayingBar(
-//                    //paddingValues = innerPadding,
-//                    Modifier.padding(innerPadding)
-//                )
-//            }
-
-
-
-
-
     }
 }

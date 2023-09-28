@@ -31,106 +31,96 @@ import com.example.musicplayer.ui.theme.EerieBlackMedium
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun CurrentlyPlayingBar(
-    //paddingValues: PaddingValues,
     modifier: Modifier,
-    //playPauseIcon: Int,
     viewModel: SongBarViewModel = hiltViewModel()
 ) {
     val state = viewModel.state.value
-
-    state.currentlySelectedSong.let {
-
-        //Scaffold(
-           // bottomBar = {
-                Box(
-                    modifier = modifier
-                        .background(color = EerieBlackMedium)
-                        .fillMaxWidth()
-                        .height(70.dp)
-                        .padding(10.dp)
-                        .clickable {
-                            viewModel.onEvent(SongBarEvent.ToggleFullScreenMode)
-                            //onClick()
-                        },
-                ) {
-
-                    Row(
-                        modifier = modifier
-                            .fillMaxSize(),
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        //verticalAlignment = Alignment.Bottom
-                    ) {
-                        Column(
-                            modifier = Modifier
-                                .fillMaxHeight(),
-                            verticalArrangement = Arrangement.Center
-                        ) {
-                            Row(
-                                verticalAlignment = Alignment.CenterVertically
-                            ) {
-                                AsyncImage(
-                                    model = state.currentlySelectedSong?.coverUrl.toString(),
-                                    contentDescription = "image_preview",
-                                    modifier = Modifier
-                                        .size(65.dp)
-                                        .clip(RoundedCornerShape(10.dp))
-                                )
-                                Spacer(modifier = Modifier.size(10.dp))
-                                Column(
-                                    modifier = Modifier
-                                        .fillMaxHeight(),
-                                    verticalArrangement = Arrangement.Center
-                                ) {
-                                    SongTitleText(text = state.currentlySelectedSong?.title.toString(), fontSize = 20.sp, color = EerieBlackLight)
-                                    SongArtistText(text = state.currentlySelectedSong?.artist.toString(), fontSize = 15.sp, color = EerieBlackLight)
-                                }
-                            }
-                        }
-
-                        Column(
-                            modifier = Modifier
-                                .fillMaxHeight(),
-                            verticalArrangement = Arrangement.Center
-                        ) {
-                            IconButton(onClick = {
-                                viewModel.onEvent(SongBarEvent.PlayPause)
-                                //onPlayIconClick()
-                            }) {
-                                Icon(
-                                    painter = painterResource(
-                                        id = if (state.isPlaying) {
-                                            R.drawable.ic_baseline_pause_24
-                                        } else {
-                                            R.drawable.ic_baseline_play_arrow_24
-                                        }
-                                    ),
-                                    contentDescription = "play_icon",
-                                    tint = EerieBlackLight,
-                                    modifier = Modifier.size(32.dp)
-                                )
-                            }
-                        }
-                    }
-
-                }
-           // }
-       // ) { paddingValues ->
-
-
-       // }
-
-
-
-    }
 
     if (state.isInFullScreenMode) {
         SongFullScreen(
             onClick = {
                 viewModel.onEvent(SongBarEvent.ToggleFullScreenMode)
             },
-            //paddingValues = paddingValues
         )
     }
 
+    if (!state.isInFullScreenMode && state.currentlySelectedSong != null) {
+        Box(
+            modifier = modifier
+                .background(color = EerieBlackMedium)
+                .fillMaxWidth()
+                .height(70.dp)
+                .padding(10.dp)
+                .clickable {
+                    viewModel.onEvent(SongBarEvent.ToggleFullScreenMode)
+                },
+        ) {
+
+            Row(
+                modifier = modifier
+                    .fillMaxSize(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+            ) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxHeight(),
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        AsyncImage(
+                            model = state.currentlySelectedSong?.coverUrl.toString(),
+                            contentDescription = "image_preview",
+                            modifier = Modifier
+                                .size(65.dp)
+                                .clip(RoundedCornerShape(10.dp))
+                        )
+                        Spacer(modifier = Modifier.size(10.dp))
+                        Column(
+                            modifier = Modifier
+                                .fillMaxHeight(),
+                            verticalArrangement = Arrangement.Center
+                        ) {
+                            SongTitleText(
+                                text = state.currentlySelectedSong?.title.toString(),
+                                fontSize = 20.sp,
+                                color = EerieBlackLight
+                            )
+                            SongArtistText(
+                                text = state.currentlySelectedSong?.artist.toString(),
+                                fontSize = 15.sp,
+                                color = EerieBlackLight
+                            )
+                        }
+                    }
+                }
+
+                Column(
+                    modifier = Modifier
+                        .fillMaxHeight(),
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    IconButton(onClick = {
+                        viewModel.onEvent(SongBarEvent.PlayPause)
+                        //onPlayIconClick()
+                    }) {
+                        Icon(
+                            painter = painterResource(
+                                id = if (state.isPlaying) {
+                                    R.drawable.ic_baseline_pause_24
+                                } else {
+                                    R.drawable.ic_baseline_play_arrow_24
+                                }
+                            ),
+                            contentDescription = "play_icon",
+                            tint = EerieBlackLight,
+                            modifier = Modifier.size(32.dp)
+                        )
+                    }
+                }
+            }
+        }
+    }
 
 }
