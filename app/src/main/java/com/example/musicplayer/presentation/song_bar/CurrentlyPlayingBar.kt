@@ -31,7 +31,7 @@ import com.example.musicplayer.ui.theme.EerieBlackMedium
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun CurrentlyPlayingBar(
-    paddingValues: PaddingValues,
+    //paddingValues: PaddingValues,
     modifier: Modifier,
     //playPauseIcon: Int,
     viewModel: SongBarViewModel = hiltViewModel()
@@ -51,8 +51,7 @@ fun CurrentlyPlayingBar(
                         .clickable {
                             viewModel.onEvent(SongBarEvent.ToggleFullScreenMode)
                             //onClick()
-                        }
-                    ,
+                        },
                 ) {
 
                     Row(
@@ -129,7 +128,7 @@ fun CurrentlyPlayingBar(
             onClick = {
                 viewModel.onEvent(SongBarEvent.ToggleFullScreenMode)
             },
-            paddingValues = paddingValues
+            //paddingValues = paddingValues
         )
     }
 

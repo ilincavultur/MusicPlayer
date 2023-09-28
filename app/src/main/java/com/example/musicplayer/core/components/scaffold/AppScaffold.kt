@@ -51,8 +51,11 @@ fun AppScaffold(
             if (navBackStackEntry?.destination?.route !in listOf(
                     Screen.SplashScreen.route,
                 )) {
-                //Column {
-
+                Column {
+                    CurrentlyPlayingBar(
+                        //paddingValues = innerPadding,
+                        Modifier//.padding(innerPadding)
+                    )
                     HomeBottomBar(
                         currentDestination = navBackStackEntry?.destination?.route,
                         onClick = { route ->
@@ -65,15 +68,26 @@ fun AppScaffold(
                             }
                         }
                     )
-                //}
+                }
             }
         },
         //scaffoldState = scaffoldState,
     ) { innerPadding ->
+
         Navigation(navController = navController, innerPadding = innerPadding)
-        CurrentlyPlayingBar(
-            paddingValues = innerPadding,
-            Modifier.padding(innerPadding)
-        )
+
+//        if (navBackStackEntry?.destination?.route !in listOf(
+//                    Screen.SplashScreen.route,
+//                )) {
+//                CurrentlyPlayingBar(
+//                    //paddingValues = innerPadding,
+//                    Modifier.padding(innerPadding)
+//                )
+//            }
+
+
+
+
+
     }
 }

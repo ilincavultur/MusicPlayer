@@ -40,7 +40,7 @@ fun SongFullScreen(
     //viewModel: HomeViewModel = hiltViewModel(),
     viewModel: SongBarViewModel = hiltViewModel(),
     onClick: () -> Unit,
-    paddingValues: PaddingValues
+    //paddingValues: PaddingValues
     //swipeableState: SwipeableState<Int>
 ) {
     val state = viewModel.state.value
@@ -72,7 +72,7 @@ fun SongFullScreen(
         ),
     ) {
            Column(
-               modifier = Modifier.fillMaxSize().padding(paddingValues)
+               modifier = Modifier.fillMaxSize()//.padding(paddingValues)
                    //.offset { IntOffset(swipeableState.offset.value.roundToInt(), 0) }
 
            ) {
