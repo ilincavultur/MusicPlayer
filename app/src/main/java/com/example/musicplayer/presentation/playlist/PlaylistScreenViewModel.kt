@@ -100,13 +100,6 @@ class PlaylistScreenViewModel @Inject constructor(
                     dialogText = ""
                 )
             }
-//            is PlaylistScreenEvent.AddSongsToPlaylist -> {
-//                viewModelScope.launch {
-//                    playlistUsecases.addSongsToPlaylist(playlist = event.playlist, songs = event.songs)
-//                    loadPlaylists()
-//                }
-//
-//            }
             PlaylistScreenEvent.ToggleCreateDialog -> {
                 _state.value = state.value.copy(
                     isCreateDialogOpen = !state.value.isCreateDialogOpen
