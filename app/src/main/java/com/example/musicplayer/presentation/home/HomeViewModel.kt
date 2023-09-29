@@ -168,30 +168,7 @@ class HomeViewModel @Inject constructor(
 
     fun onEvent(event: HomeUiEvent) {
         when (event) {
-//            HomeUiEvent.Backward -> {
-//                viewModelScope.launch {
-//                    playerEventListener.onEvent(PlayerEvent.Backward)
-//                }
-//            }
-//            HomeUiEvent.Forward -> {
-//                viewModelScope.launch {
-//                    playerEventListener.onEvent(PlayerEvent.Forward)
-//                }
-//            }
-//            HomeUiEvent.PlayPause -> {
-//                viewModelScope.launch {
-//                    playerEventListener.onEvent(PlayerEvent.PlayPause)
-//                }
-//            }
-//            is HomeUiEvent.SeekTo -> {
-//                viewModelScope.launch {
-//                    playerEventListener.onEvent(PlayerEvent.SeekTo(((state.value.duration * event.seekPos) / 100f).toLong()))
-//                }
-//            }
             is HomeUiEvent.SelectAudio -> {
-//                state.value.songs.find {
-//                    it.mediaId?.toInt() == event.mediaId
-//                }
                 viewModelScope.launch {
                     playerEventListener.onEvent(PlayerEvent.SelectAudio(event.selectedMediaIdx, event.mediaId))
                 }
@@ -199,34 +176,6 @@ class HomeViewModel @Inject constructor(
             is HomeUiEvent.ShowSnackbar -> {
                 // nada
             }
-//            HomeUiEvent.Stop -> {
-//                viewModelScope.launch {
-//                    playerEventListener.onEvent(PlayerEvent.Stop)
-//                }
-//            }
-//            is HomeUiEvent.UpdateProgress -> {
-//                viewModelScope.launch {
-//                    playerEventListener.onEvent(PlayerEvent.UpdateProgress(event.updatedProgress))
-//                    _state.value = state.value.copy(
-//                        progress = event.updatedProgress
-//                    )
-//                }
-//            }
-//            HomeUiEvent.ToggleFullScreenMode -> {
-//                _state.value = state.value.copy(
-//                    isInFullScreenMode = !state.value.isInFullScreenMode
-//                )
-//            }
-//            HomeUiEvent.SkipToNext -> {
-//                viewModelScope.launch {
-//                    playerEventListener.onEvent(PlayerEvent.SkipToNext)
-//                }
-//            }
-//            HomeUiEvent.SkipToPrevious -> {
-//                viewModelScope.launch {
-//                    playerEventListener.onEvent(PlayerEvent.SkipToPrevious)
-//                }
-//            }
         }
     }
 }

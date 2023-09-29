@@ -164,11 +164,6 @@ class SongBarViewModel @Inject constructor(
                     playerEventListener.onEvent(PlayerEvent.SeekTo(((state.value.duration * event.seekPos) / 100f).toLong()))
                 }
             }
-//            is SongBarEvent.SelectAudio -> {
-//                viewModelScope.launch {
-//                    playerEventListener.onEvent(PlayerEvent.SelectAudio(event.selectedMediaIdx, event.mediaId))
-//                }
-//            }
             is SongBarEvent.ShowSnackbar -> {
 
             }

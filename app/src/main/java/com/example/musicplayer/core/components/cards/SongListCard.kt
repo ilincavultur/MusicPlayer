@@ -65,9 +65,7 @@ fun SongListCard(
                 modifier = modifier
                     .fillMaxSize()
                     .clickable {
-
-                            onSongCardClick(song.mediaId?.toInt() ?: -1)
-
+                        onSongCardClick(song.mediaId?.toInt() ?: -1)
                     },
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {

@@ -3,7 +3,6 @@ package com.example.musicplayer.presentation.song_bar
 sealed class SongBarEvent {
     data class ShowSnackbar(val message: String) : SongBarEvent()
 
-    //data class SelectAudio(val selectedMediaIdx : Int  = -1, val mediaId: Int) : SongBarEvent()
     object PlayPause : SongBarEvent()
     object SkipToNext : SongBarEvent()
     object SkipToPrevious : SongBarEvent()

@@ -41,95 +41,18 @@ class PlaylistDetailViewModel @Inject constructor(
 
     private var searchPlaylistSongs: Job? = null
     private var searchAllSongs: Job? = null
-    private var eventListenerJob: Job? = null
 
     init {
         savedStateHandle.get<Int>("playlistWithSongsId")?.let { playlistId ->
             println("playlistWithSongsId: " + playlistId)
             if(playlistId != -1) {
-//                viewModelScope.launch {
-//                    playlistUsecases.getPlaylistFlowUsecase(playlistId)?.also { playlist ->
-//                        playlistWithSongsId = playlist.playlist.playlistId
-//                        _state.value = state.value.copy(
-//                            playlistWithSongs = playlist
-//                        )
-//                    }
-//                }
                 loadPlaylistSongs(playlistId)
             }
         }
-//        eventListenerJob?.cancel()
-//        eventListenerJob = viewModelScope.launch {
-//            delay(500L)
-//            playerEventListener.state.collectLatest { playerState ->
-//                when (playerState) {
-//                    is PlayerState.Buffering -> {
-//                        viewModelScope.launch {
-//                            val newProgress = playerState.progress
-//                            _state.value = state.value.copy(
-//                                progress = newProgress.toFloat(),
-//                                progressString = formatDurationFromMili(newProgress.toLong())
-//                            )
-//                        }
-//                    }
-//                    is PlayerState.CurrentlyPlaying -> {
-//                        _state.value = state.value.copy(
-//                            currentlySelectedSong = state.value.songs[playerState.mediaItemIdx],
-//                            currentlySelectedSongString = formatDurationFromMili(state.value.duration)
-//                        )
-//                    }
-//                    is PlayerState.Ended -> TODO()
-//                    is PlayerState.Idle -> TODO()
-//                    PlayerState.Initial -> {
-//                        _uiState.value = PlaylistUiState.Initial
-//                    }
-//                    is PlayerState.Playing -> {
-//                        _state.value = state.value.copy(
-//                            isPlaying = playerState.isPlaying
-//                        )
-//                    }
-//                    is PlayerState.Progress -> {
-//                        viewModelScope.launch {
-//                            val newProgress = calculateProgressValue(playerState.progress)
-//                            val newProgressString = formatDuration(state.value.progress.toLong())
-//                            withContext(Dispatchers.Main) {
-//                                _state.value = state.value.copy(
-//                                    progress = newProgress,
-//                                    progressString = newProgressString
-//                                )
-//                            }
-//                        }
-//                    }
-//                    is PlayerState.Ready -> {
-//                        _state.value = state.value.copy(
-//                            duration = playerState.duration
-//                        )
-//                        _uiState.value = PlaylistUiState.Ready
-//                    }
-//                }
-//            }
-//        }
     }
 
     init {
         loadAllSongs()
-    }
-
-    private fun calculateProgressValue(progress: Long) : Float {
-        return if (progress > 0) ((progress.toFloat() / state.value.duration.toFloat())  * 100f)
-        else 0f
-    }
-
-    private fun formatDuration(duration: Long): String {
-        val minute = duration / 60
-        val seconds = duration % 60
-        return String.format("%02d:%02d", minute, seconds)
-    }
-
-    private fun formatDurationFromMili(milliseconds: Long): String {
-        val minute = milliseconds / 1000 / 60
-        val seconds = milliseconds / 1000 % 60
-        return String.format("%02d:%02d", minute, seconds)
     }
 
     private fun loadPlaylistSongs(id: Int) {
@@ -156,31 +79,9 @@ class PlaylistDetailViewModel @Inject constructor(
                                 playlistWithSongs = result.data ?: PlaylistWithSongs(Playlist(), emptyList()),
                                 isLoading = false
                             )
-//                            if (state.value.playlistWithSongs.songs.isNotEmpty()) {
-//                                setMediaItems()
-//                            }
                         }
                     }
                 }.launchIn(this)
-        }
-    }
-
-    private fun setMediaItems() {
-        state.value.playlistWithSongs.songs.map { song ->
-            MediaItem.Builder()
-                .setUri(song.songUrl)
-                .setMediaMetadata(
-                    MediaMetadata.Builder()
-                        .setAlbumArtist(song.artist)
-                        .setDisplayTitle(song.title)
-                        .setTitle(song.artist)
-                        .build()
-                ).build()
-        }.also {
-            it.forEach {
-                println("mediaItem " + it.mediaMetadata.albumArtist)
-            }
-            playerEventListener.setMediaItems(it)
         }
     }
 
@@ -217,26 +118,6 @@ class PlaylistDetailViewModel @Inject constructor(
 
     fun onEvent(event: PlaylistDetailEvent) {
         when (event) {
-            PlaylistDetailEvent.Backward -> {
-                viewModelScope.launch {
-                    playerEventListener.onEvent(PlayerEvent.Backward)
-                }
-            }
-            PlaylistDetailEvent.Forward -> {
-                viewModelScope.launch {
-                    playerEventListener.onEvent(PlayerEvent.Forward)
-                }
-            }
-            PlaylistDetailEvent.PlayPause -> {
-                viewModelScope.launch {
-                    playerEventListener.onEvent(PlayerEvent.PlayPause)
-                }
-            }
-            is PlaylistDetailEvent.SeekTo -> {
-                viewModelScope.launch {
-                    playerEventListener.onEvent(PlayerEvent.SeekTo(((state.value.duration * event.seekPos) / 100f).toLong()))
-                }
-            }
             is PlaylistDetailEvent.SelectAudio -> {
                 viewModelScope.launch {
                     playerEventListener.onEvent(PlayerEvent.SelectAudio(event.selectedMediaIdx, event.mediaId))
@@ -244,34 +125,6 @@ class PlaylistDetailViewModel @Inject constructor(
             }
             is PlaylistDetailEvent.ShowSnackbar -> {
                 // nada
-            }
-            PlaylistDetailEvent.Stop -> {
-                viewModelScope.launch {
-                    playerEventListener.onEvent(PlayerEvent.Stop)
-                }
-            }
-            is PlaylistDetailEvent.UpdateProgress -> {
-                viewModelScope.launch {
-                    playerEventListener.onEvent(PlayerEvent.UpdateProgress(event.updatedProgress))
-                    _state.value = state.value.copy(
-                        progress = event.updatedProgress
-                    )
-                }
-            }
-            PlaylistDetailEvent.ToggleFullScreenMode -> {
-                _state.value = state.value.copy(
-                    isInFullScreenMode = !state.value.isInFullScreenMode
-                )
-            }
-            PlaylistDetailEvent.SkipToNext -> {
-                viewModelScope.launch {
-                    playerEventListener.onEvent(PlayerEvent.SkipToNext)
-                }
-            }
-            PlaylistDetailEvent.SkipToPrevious -> {
-                viewModelScope.launch {
-                    playerEventListener.onEvent(PlayerEvent.SkipToPrevious)
-                }
             }
             PlaylistDetailEvent.ToggleSelectSongsDialog -> {
                 _state.value = state.value.copy(
