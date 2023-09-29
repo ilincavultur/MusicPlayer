@@ -86,4 +86,8 @@ class PlaylistRepositoryImpl @Inject constructor(
         dao.deletePlaylist(id)
     }
 
+    override suspend fun updatePlaylist(playlist: PlaylistEntity) {
+        dao.updatePlaylist(playlist)
+    }
+
 }

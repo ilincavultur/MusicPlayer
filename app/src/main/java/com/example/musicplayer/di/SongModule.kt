@@ -95,7 +95,8 @@ object SongModule {
             getPlaylistFlowUsecase = GetPlaylistStateFlowUsecase(repository),
             createPlaylist = CreatePlaylistUsecase(repository),
             addSongsToPlaylist = AddSongsToPlaylistUsecase(repository),
-            deletePlaylist = DeletePlaylistUsecase(repository)
+            deletePlaylist = DeletePlaylistUsecase(repository),
+            chooseCoverPhoto = ChooseCoverPhotoUsecase(repository)
         )
     }
 

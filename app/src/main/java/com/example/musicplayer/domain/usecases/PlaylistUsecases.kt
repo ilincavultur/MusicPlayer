@@ -5,6 +5,7 @@ data class PlaylistUsecases(
     val getPlaylist: GetPlaylistUsecase,
     val getPlaylistFlowUsecase: GetPlaylistStateFlowUsecase,
     val createPlaylist: CreatePlaylistUsecase,
+    val chooseCoverPhoto: ChooseCoverPhotoUsecase,
     val addSongsToPlaylist: AddSongsToPlaylistUsecase,
     val deletePlaylist: DeletePlaylistUsecase
 )

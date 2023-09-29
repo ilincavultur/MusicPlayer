@@ -5,12 +5,14 @@ import com.example.musicplayer.data.local.entity.PlaylistEntity
 
 data class Playlist(
     val playlistId: Int? = null,
-    val playlistName: String = ""
+    val playlistName: String = "",
+    val playlistCoverPhoto: String = "",
 )
 
 fun Playlist.toPlaylistEntity() : PlaylistEntity {
     return PlaylistEntity(
         playlistId = playlistId,
-        playlistName = playlistName
+        playlistName = playlistName,
+        playlistCoverPhoto = playlistCoverPhoto
     )
 }

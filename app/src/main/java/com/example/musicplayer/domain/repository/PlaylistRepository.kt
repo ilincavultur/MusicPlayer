@@ -22,4 +22,6 @@ interface PlaylistRepository {
     suspend fun addSongsToPlaylist(playlist: PlaylistEntity, songs: List<SongEntity>)
 
     suspend fun deletePlaylist(id: Int)
+
+    suspend fun updatePlaylist(playlist: PlaylistEntity)
 }

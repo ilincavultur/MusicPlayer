@@ -1,6 +1,9 @@
 package com.example.musicplayer.presentation.playlist
 
+import android.content.Context
+import android.content.Intent
 import androidx.compose.runtime.*
+import androidx.core.net.toUri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.musicplayer.core.util.Resource
@@ -12,6 +15,9 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import java.io.File
+import java.text.SimpleDateFormat
+import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
@@ -132,6 +138,27 @@ class PlaylistScreenViewModel @Inject constructor(
                     contextMenuPlaylistId = null
                 )
             }
+            is PlaylistScreenEvent.SetCoverPhoto -> {
+
+                val playlistToUpdate = state.value.playlists.first {
+                    it.playlist.playlistId == state.value.contextMenuPlaylistId
+                }.playlist
+
+                val newPlaylist = Playlist(
+                    playlistId = playlistToUpdate.playlistId,
+                    playlistName = playlistToUpdate.playlistName,
+                    playlistCoverPhoto = event.playlistCoverPhoto
+                )
+
+                playlistToUpdate.let {
+                    viewModelScope.launch {
+                        playlistUsecases.chooseCoverPhoto(newPlaylist)
+                        loadPlaylists()
+                    }
+                }
+
+            }
         }
     }
+
 }

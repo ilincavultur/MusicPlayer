@@ -8,12 +8,14 @@ import com.example.musicplayer.domain.models.Playlist
 data class PlaylistEntity(
     @PrimaryKey
     val playlistId: Int? = null,
-    val playlistName: String = ""
+    val playlistName: String = "",
+    val playlistCoverPhoto: String = "",
 )
 
 fun PlaylistEntity.toPlaylist() : Playlist {
     return Playlist(
         playlistId = playlistId,
-        playlistName = playlistName
+        playlistName = playlistName,
+        playlistCoverPhoto = playlistCoverPhoto
     )
 }
