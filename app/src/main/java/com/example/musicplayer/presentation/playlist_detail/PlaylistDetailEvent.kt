@@ -8,7 +8,7 @@ import com.example.musicplayer.presentation.playlist.PlaylistScreenEvent
 sealed class PlaylistDetailEvent {
     data class ShowSnackbar(val message: String) : PlaylistDetailEvent()
 
-    data class SelectAudio(val selectedMediaIdx : Int  = -1) : PlaylistDetailEvent()
+    data class SelectAudio(val selectedMediaIdx : Int  = -1, val mediaId: Int) : PlaylistDetailEvent()
     object PlayPause : PlaylistDetailEvent()
     object SkipToNext : PlaylistDetailEvent()
     object SkipToPrevious : PlaylistDetailEvent()

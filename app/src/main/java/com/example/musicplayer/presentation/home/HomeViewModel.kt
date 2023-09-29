@@ -153,6 +153,7 @@ class HomeViewModel @Inject constructor(
         state.value.songs.map { song ->
             MediaItem.Builder()
                 .setUri(song.songUrl)
+                .setMediaId(song.mediaId.toString())
                 .setMediaMetadata(
                     MediaMetadata.Builder()
                         .setAlbumArtist(song.artist)
@@ -188,8 +189,11 @@ class HomeViewModel @Inject constructor(
                 }
             }
             is HomeUiEvent.SelectAudio -> {
+//                state.value.songs.find {
+//                    it.mediaId?.toInt() == event.mediaId
+//                }
                 viewModelScope.launch {
-                    playerEventListener.onEvent(PlayerEvent.SelectAudio(event.selectedMediaIdx))
+                    playerEventListener.onEvent(PlayerEvent.SelectAudio(event.selectedMediaIdx, event.mediaId))
                 }
             }
             is HomeUiEvent.ShowSnackbar -> {

@@ -51,27 +51,6 @@ fun SongListScreen(
             }
             false -> {
                 Scaffold(
-//                    bottomBar = {
-//                        state.currentlySelectedSong?.let {
-//                            if (!state.isInFullScreenMode) {
-//                                CurrentlyPlayingBar(
-//                                    Modifier,
-//                                    onClick = {
-//                                        viewModel.onEvent(HomeUiEvent.ToggleFullScreenMode)
-//                                    },
-//                                    onPlayIconClick = {
-//                                        viewModel.onEvent(HomeUiEvent.PlayPause)
-//                                    },
-//                                    song = it,
-//                                    playPauseIcon = if (state.isPlaying) {
-//                                        R.drawable.ic_baseline_pause_24
-//                                    } else {
-//                                        R.drawable.ic_baseline_play_arrow_24
-//                                    }
-//                                )
-//                            }
-//                        }
-//                    }
                 ) {
 
                     LazyColumn(
@@ -81,19 +60,14 @@ fun SongListScreen(
                             .padding(it)
                     ) {
                         itemsIndexed(state.songs) { index, song ->
-                            SongListCard(song, modifier = Modifier.fillMaxSize(), onSongCardClick = {
-                                viewModel.onEvent(HomeUiEvent.SelectAudio(index))
+                            SongListCard(song, modifier = Modifier.fillMaxSize(), onSongCardClick = { songId ->
+                                viewModel.onEvent(HomeUiEvent.SelectAudio(index, songId))
                             }, isPlaying = state.isPlaying && state.currentlySelectedSong == song)
                             Divider(color = EerieBlackLightTransparent)
                         }
                     }
                 }
 
-//                SongFullScreen(
-//                    onClick = {
-//                        viewModel.onEvent(HomeUiEvent.ToggleFullScreenMode)
-//                    },
-//                )
             }
         }
     }

@@ -107,17 +107,40 @@ class PlayerEventListener @Inject constructor(
                 exoPlayer.seekTo(event.seekPos)
             }
             is PlayerEvent.SelectAudio -> {
-                when(event.selectedMediaIdx) {
-                    exoPlayer.currentMediaItemIndex -> {
-                        playPause()
-                    }
-                    else -> {
-                        exoPlayer.seekToDefaultPosition(event.selectedMediaIdx)
-                        _state.value = PlayerState.Playing(isPlaying = true)
-                        exoPlayer.playWhenReady = true
-                        startProgressUpdate()
-                    }
-                }
+//                when(event.selectedMediaIdx) {
+//                    exoPlayer.currentMediaItemIndex -> {
+//                        playPause()
+//                    }
+//                    else -> {
+                        val count = exoPlayer.mediaItemCount
+
+
+                        for (i in 0 until count) {
+                            val mediaItem = exoPlayer.getMediaItemAt(i)
+                            if(mediaItem.mediaId.toInt() == event.mediaId) {
+                                if (exoPlayer.currentMediaItemIndex == i) {
+                                    playPause()
+                                } else {
+                                    // do whatever you want with media
+
+                                    // you can also use the index i as a starting point
+                                    // to delete all previous items or to move the i-th item to
+                                    // the first position of the playlist with moveMediaItem
+                                    println("event.selectedMediaIdx " + event.selectedMediaIdx)
+                                    println("event.selectedMediaIdx pos i " + i)
+                                    exoPlayer.seekToDefaultPosition(i)
+                                    //exoPlayer.seekToDefaultPosition(event.selectedMediaIdx)
+                                    _state.value = PlayerState.Playing(isPlaying = true)
+                                    exoPlayer.playWhenReady = true
+                                    startProgressUpdate()
+                                    break;
+                                }
+                            }
+                        }
+
+
+                  //  }
+                //}
             }
             PlayerEvent.SkipToPrevious -> {
                 val prevIdx = exoPlayer.currentMediaItemIndex - 1

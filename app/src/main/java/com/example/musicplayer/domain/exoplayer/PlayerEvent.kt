@@ -1,7 +1,7 @@
 package com.example.musicplayer.domain.exoplayer
 
 sealed class PlayerEvent {
-    data class SelectAudio(val selectedMediaIdx : Int  = -1) : PlayerEvent()
+    data class SelectAudio(val selectedMediaIdx : Int  = -1, val mediaId: Int) : PlayerEvent()
     object PlayPause : PlayerEvent()
     object SkipToNext : PlayerEvent()
     object SkipToPrevious : PlayerEvent()

@@ -5,7 +5,7 @@ import com.example.musicplayer.domain.exoplayer.PlayerEvent
 sealed class HomeUiEvent {
     data class ShowSnackbar(val message: String) : HomeUiEvent()
 
-    data class SelectAudio(val selectedMediaIdx : Int  = -1) : HomeUiEvent()
+    data class SelectAudio(val selectedMediaIdx : Int  = -1, val mediaId: Int) : HomeUiEvent()
     object PlayPause : HomeUiEvent()
     object SkipToNext : HomeUiEvent()
     object SkipToPrevious : HomeUiEvent()

@@ -1,5 +1,9 @@
 package com.example.musicplayer.presentation.playlist
 
+import android.net.Uri
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -30,6 +34,14 @@ fun PlaylistScreen(
     val state = viewModel.state.value
     val haptics = LocalHapticFeedback.current
     val coroutineScope = rememberCoroutineScope()
+    var selectedImageUri by remember {
+        mutableStateOf<Uri?>(null)
+    }
+
+    val singlePhotoPickerLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.PickVisualMedia(),
+        onResult = { uri -> selectedImageUri = uri }
+    )
 
     LazyVerticalGrid(
         modifier = Modifier.fillMaxSize(),
@@ -49,7 +61,8 @@ fun PlaylistScreen(
                 onCardLongClick = {
                     haptics.performHapticFeedback(HapticFeedbackType.LongPress)
                     viewModel.onEvent(PlaylistScreenEvent.OnCardLongClick(playlist.playlist.playlistId ?: -1))
-                }
+                },
+                selectedImageUri = selectedImageUri
             )
         }
         items(count = 1) {
@@ -69,7 +82,12 @@ fun PlaylistScreen(
                 viewModel.onEvent(PlaylistScreenEvent.DeletePlaylist)
             },
             onDismissSheet = { viewModel.onEvent(PlaylistScreenEvent.OnDismissSheet) },
-            coroutineScope = coroutineScope
+            coroutineScope = coroutineScope,
+            onChooseCoverPhotoClick = {
+                singlePhotoPickerLauncher.launch(
+                    PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
+                )
+            }
         )
     }
 

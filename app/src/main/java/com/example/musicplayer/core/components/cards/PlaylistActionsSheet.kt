@@ -27,6 +27,7 @@ import kotlinx.coroutines.launch
 fun PlaylistActionsSheet(
     playlistWithSongs: PlaylistWithSongs,
     onDeleteButtonClick: () -> Unit,
+    onChooseCoverPhotoClick: () -> Unit,
     onDismissSheet: () -> Unit,
     //modalSheetState: ModalBottomSheetState,
     coroutineScope: CoroutineScope
@@ -39,34 +40,72 @@ fun PlaylistActionsSheet(
         containerColor = EerieBlack
     ) {
         Surface(
-            modifier = Modifier.height(100.dp).background(
-                color = EerieBlack
-            ),
-        ) {
-            Button(
-                onClick = onDeleteButtonClick,
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = EerieBlack,
-                    contentColor = Color.White,
-                    disabledContainerColor = Color.Transparent,
-                    disabledContentColor = Color.White
+            modifier = Modifier
+                .height(100.dp)
+                .background(
+                    color = EerieBlack
                 ),
-                modifier = Modifier.align(Alignment.Start).background(
+        ) {
+            Column(
+                modifier = Modifier.background(
                     color = EerieBlack
                 )
             ) {
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_baseline_delete_outline_24),
-                    contentDescription = "delete playlist",
-                    tint = EerieBlackLight
-                )
-                Text(
-                    text = "Delete Playlist " + playlistWithSongs.playlist.playlistName,
-                    style = TextStyle(
-                        color = EerieBlackLight,
-                        fontSize = 18.sp
+                Button(
+                    onClick = onDeleteButtonClick,
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = EerieBlack,
+                        contentColor = Color.White,
+                        disabledContainerColor = Color.Transparent,
+                        disabledContentColor = Color.White
+                    ),
+                    modifier = Modifier
+                        .align(Alignment.Start)
+                        .background(
+                            color = EerieBlack
+                        )
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_baseline_delete_outline_24),
+                        contentDescription = "delete playlist",
+                        tint = EerieBlackLight
                     )
-                )
+                    Text(
+                        text = "Delete Playlist " + playlistWithSongs.playlist.playlistName,
+                        style = TextStyle(
+                            color = EerieBlackLight,
+                            fontSize = 18.sp
+                        )
+                    )
+                }
+
+                Button(
+                    onClick = onChooseCoverPhotoClick,
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = EerieBlack,
+                        contentColor = Color.White,
+                        disabledContainerColor = Color.Transparent,
+                        disabledContentColor = Color.White
+                    ),
+                    modifier = Modifier
+                        .align(Alignment.Start)
+                        .background(
+                            color = EerieBlack
+                        )
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_baseline_add_photo_alternate_24),
+                        contentDescription = "choose cover photo",
+                        tint = EerieBlackLight
+                    )
+                    Text(
+                        text = "Choose Cover Photo",
+                        style = TextStyle(
+                            color = EerieBlackLight,
+                            fontSize = 18.sp
+                        )
+                    )
+                }
             }
         }
     }

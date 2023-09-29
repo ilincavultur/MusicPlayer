@@ -239,7 +239,7 @@ class PlaylistDetailViewModel @Inject constructor(
             }
             is PlaylistDetailEvent.SelectAudio -> {
                 viewModelScope.launch {
-                    playerEventListener.onEvent(PlayerEvent.SelectAudio(event.selectedMediaIdx))
+                    playerEventListener.onEvent(PlayerEvent.SelectAudio(event.selectedMediaIdx, event.mediaId))
                 }
             }
             is PlaylistDetailEvent.ShowSnackbar -> {

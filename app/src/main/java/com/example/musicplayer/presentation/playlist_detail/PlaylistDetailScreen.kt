@@ -69,27 +69,6 @@ fun PlaylistDetailScreen(
                                 }
                              )
                     },
-//                    bottomBar = {
-//                        state.currentlySelectedSong?.let {
-//                            if (!state.isInFullScreenMode) {
-//                                CurrentlyPlayingBar(
-//                                    Modifier,
-//                                    onClick = {
-//                                        viewModel.onEvent(PlaylistDetailEvent.ToggleFullScreenMode)
-//                                    },
-//                                    onPlayIconClick = {
-//                                        viewModel.onEvent(PlaylistDetailEvent.PlayPause)
-//                                    },
-//                                    song = it,
-//                                    playPauseIcon = if (state.isPlaying) {
-//                                        R.drawable.ic_baseline_pause_24
-//                                    } else {
-//                                        R.drawable.ic_baseline_play_arrow_24
-//                                    }
-//                                )
-//                            }
-//                        }
-//                    },
                     floatingActionButton = {
                         IconButton(onClick = { viewModel.onEvent(PlaylistDetailEvent.ToggleSelectSongsDialog) }) {
                             Icon(painter = painterResource(id = R.drawable.ic_baseline_add_24), contentDescription = "add_songs")
@@ -105,8 +84,8 @@ fun PlaylistDetailScreen(
                                 .padding(paddingValues)
                         ) {
                             itemsIndexed(playlist.songs) { index, song ->
-                                SongListCard(song, modifier = Modifier.fillMaxSize(), onSongCardClick = {
-                                    viewModel.onEvent(PlaylistDetailEvent.SelectAudio(index))
+                                SongListCard(song, modifier = Modifier.fillMaxSize(), onSongCardClick = { songId ->
+                                    viewModel.onEvent(PlaylistDetailEvent.SelectAudio(index, songId))
                                 }, isPlaying = state.isPlaying && state.currentlySelectedSong == song)
                                 Divider(color = EerieBlackLightTransparent)
                             }
@@ -132,13 +111,6 @@ fun PlaylistDetailScreen(
                     }
 
                 }
-
-//                SongFullScreen(
-//                    onClick = {
-//                        viewModel.onEvent(PlaylistDetailEvent.ToggleFullScreenMode)
-//                    },
-//                    modifier = Mod
-//                )
 
             }
         }
