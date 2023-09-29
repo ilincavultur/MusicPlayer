@@ -22,7 +22,7 @@ data class HomeState(
     var isPlaying: Boolean = false,
     var currentlySelectedSong: Song? = null,
     var currentlySelectedSongString: String = "00:00",
-    var isInFullScreenMode: Boolean = false,
+    //var isInFullScreenMode: Boolean = false,
 )
 
 sealed class HomeUiState {

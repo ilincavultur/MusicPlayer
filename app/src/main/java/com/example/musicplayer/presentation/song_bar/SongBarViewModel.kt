@@ -144,25 +144,62 @@ class SongBarViewModel @Inject constructor(
 
     fun onEvent(event: SongBarEvent) {
         when (event) {
-            SongBarEvent.Backward -> TODO()
-            SongBarEvent.Forward -> TODO()
+            SongBarEvent.Backward -> {
+                viewModelScope.launch {
+                    playerEventListener.onEvent(PlayerEvent.Backward)
+                }
+            }
+            SongBarEvent.Forward -> {
+                viewModelScope.launch {
+                    playerEventListener.onEvent(PlayerEvent.Forward)
+                }
+            }
             SongBarEvent.PlayPause -> {
                 viewModelScope.launch {
                     playerEventListener.onEvent(PlayerEvent.PlayPause)
                 }
             }
-            is SongBarEvent.SeekTo -> TODO()
-            is SongBarEvent.SelectAudio -> TODO()
-            is SongBarEvent.ShowSnackbar -> TODO()
-            SongBarEvent.SkipToNext -> TODO()
-            SongBarEvent.SkipToPrevious -> TODO()
-            SongBarEvent.Stop -> TODO()
+            is SongBarEvent.SeekTo -> {
+                viewModelScope.launch {
+                    playerEventListener.onEvent(PlayerEvent.SeekTo(((state.value.duration * event.seekPos) / 100f).toLong()))
+                }
+            }
+//            is SongBarEvent.SelectAudio -> {
+//                viewModelScope.launch {
+//                    playerEventListener.onEvent(PlayerEvent.SelectAudio(event.selectedMediaIdx, event.mediaId))
+//                }
+//            }
+            is SongBarEvent.ShowSnackbar -> {
+
+            }
+            SongBarEvent.SkipToNext -> {
+                viewModelScope.launch {
+                    playerEventListener.onEvent(PlayerEvent.SkipToNext)
+                }
+            }
+            SongBarEvent.SkipToPrevious -> {
+                viewModelScope.launch {
+                    playerEventListener.onEvent(PlayerEvent.SkipToPrevious)
+                }
+            }
+            SongBarEvent.Stop -> {
+                viewModelScope.launch {
+                    playerEventListener.onEvent(PlayerEvent.Stop)
+                }
+            }
             SongBarEvent.ToggleFullScreenMode -> {
                 _state.value = state.value.copy(
                     isInFullScreenMode = !state.value.isInFullScreenMode
                 )
             }
-            is SongBarEvent.UpdateProgress -> TODO()
+            is SongBarEvent.UpdateProgress -> {
+                viewModelScope.launch {
+                    playerEventListener.onEvent(PlayerEvent.UpdateProgress(event.updatedProgress))
+                    _state.value = state.value.copy(
+                        progress = event.updatedProgress
+                    )
+                }
+            }
         }
     }
 }

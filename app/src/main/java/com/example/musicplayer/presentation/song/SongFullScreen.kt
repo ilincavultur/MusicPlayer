@@ -198,7 +198,8 @@ fun SongSlider(
 @Composable
 fun SongControls(
     context: Context,
-    viewModel: HomeViewModel = hiltViewModel()
+    viewModel: SongBarViewModel = hiltViewModel()
+    //viewModel: HomeViewModel = hiltViewModel()
 ) {
     val state = viewModel.state.value
     Row(
@@ -211,33 +212,37 @@ fun SongControls(
     ) {
 
         IconButton(onClick = {
-            viewModel.onEvent(HomeUiEvent.SkipToPrevious)
+            //viewModel.onEvent(HomeUiEvent.SkipToPrevious)
+            viewModel.onEvent(SongBarEvent.SkipToPrevious)
         }) {
             Icon(painter = painterResource(id = R.drawable.ic_baseline_skip_previous_24), contentDescription = "skip_prev", tint = EerieBlackLight, modifier = Modifier.size(25.dp))
         }
 
         IconButton(onClick = {
-            viewModel.onEvent(HomeUiEvent.Backward)
+            //viewModel.onEvent(HomeUiEvent.Backward)
+            viewModel.onEvent(SongBarEvent.Backward)
         }) {
             Icon(painter = painterResource(id = R.drawable.ic_baseline_replay_10_24), contentDescription = "skip_prev", tint = EerieBlackLight, modifier = Modifier.size(25.dp))
         }
 
         IconButton(onClick = {
-            viewModel.onEvent(HomeUiEvent.PlayPause)
+            //viewModel.onEvent(HomeUiEvent.PlayPause)
+            viewModel.onEvent(SongBarEvent.PlayPause)
         }) {
             Icon(painter = painterResource(id = if (state.isPlaying) {R.drawable.ic_baseline_pause_circle_24 } else {R.drawable.ic_baseline_play_arrow_24}
             ), contentDescription = "pause_play", tint = EerieBlackLight, modifier = Modifier.size(45.dp))
         }
 
         IconButton(onClick = {
-            viewModel.onEvent(HomeUiEvent.Forward)
+            //viewModel.onEvent(HomeUiEvent.Forward)
+            viewModel.onEvent(SongBarEvent.Forward)
         }) {
             Icon(painter = painterResource(id = R.drawable.ic_baseline_forward_10_24), contentDescription = "skip_prev", tint = EerieBlackLight, modifier = Modifier.size(25.dp))
         }
 
         IconButton(onClick = {
-            //viewModel.onEvent(HomeUiEvent.Forward)
-            viewModel.onEvent(HomeUiEvent.SkipToNext)
+            //viewModel.onEvent(HomeUiEvent.SkipToNext)
+            viewModel.onEvent(SongBarEvent.SkipToNext)
         }) {
             Icon(painter = painterResource(id = R.drawable.ic_baseline_skip_next_24), contentDescription = "skip_next", tint = EerieBlackLight, modifier = Modifier.size(25.dp))
         }
