@@ -9,5 +9,4 @@ data class PlaylistScreenState(
     val dialogText: String = "",
     val isError: Boolean = false,
     val contextMenuPlaylistId: Int? = null,
-    val selectedImageUri: String? = null
 )

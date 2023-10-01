@@ -29,8 +29,6 @@ class SongBarViewModel @Inject constructor(
     private val _state = mutableStateOf(SongBarState())
     val state: State<SongBarState> = _state
 
-    //val song = exoPlayer.currentMediaItemIndex
-
     private var searchJob: Job? = null
 
     init {
@@ -73,21 +71,16 @@ class SongBarViewModel @Inject constructor(
             playerEventListener.state.collectLatest { playerState ->
                 when (playerState) {
                     is PlayerState.Buffering -> {
-                        //viewModelScope.launch {
-                        //val newProgress = calculateProgressValue(playerState.progress)
                         val newProgress = playerState.progress
                         _state.value = state.value.copy(
                             progress = newProgress.toFloat(),
-                            //progressString = formatDuration(newProgress.toLong())
                             progressString = formatDurationFromMili(newProgress.toLong())
                         )
-                        //}
                     }
                     is PlayerState.CurrentlyPlaying -> {
                         println("event listener song bar  " + playerState.mediaItemIdx)
                         _state.value = state.value.copy(
                             currentlySelectedSong = state.value.songs[playerState.mediaItemIdx],
-                            //currentlySelectedSongString = formatDuration(state.value.songs[playerState.mediaItemIdx].duration?.toLong() ?: 0)
                             currentlySelectedSongString = formatDurationFromMili(state.value.duration)
                         )
                     }
@@ -103,7 +96,6 @@ class SongBarViewModel @Inject constructor(
                         )
                     }
                     is PlayerState.Progress -> {
-                        //viewModelScope.launch {
                         val newProgress = calculateProgressValue(playerState.progress)
                         val newProgressString = formatDuration(state.value.progress.toLong())
                         withContext(Dispatchers.Main) {
@@ -112,13 +104,11 @@ class SongBarViewModel @Inject constructor(
                                 progressString = newProgressString
                             )
                         }
-                        //}
                     }
                     is PlayerState.Ready -> {
                         _state.value = state.value.copy(
                             duration = playerState.duration
                         )
-                        //_uiState.value = HomeUiState.Ready
                     }
                 }
             }
