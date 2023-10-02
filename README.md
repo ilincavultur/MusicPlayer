@@ -1,6 +1,6 @@
 # MusicPlayer
 
-<img width="349" alt="Screenshot 2023-09-15 at 16 30 50" src="https://github.com/ilincavultur/MusicPlayer/assets/41162207/877633a3-5c0d-43ad-ac51-e21e958561cc">
+<img src="https://github.com/ilincavultur/MusicPlayer/assets/41162207/877633a3-5c0d-43ad-ac51-e21e958561cc" width="400" height="800">
 
 <img src="https://github.com/ilincavultur/MusicPlayer/assets/41162207/a607b0fe-7537-4707-b8bc-23f421d41946" width="400" height="800">
 
