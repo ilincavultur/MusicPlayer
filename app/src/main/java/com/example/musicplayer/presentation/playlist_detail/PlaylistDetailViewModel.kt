@@ -46,6 +46,9 @@ class PlaylistDetailViewModel @Inject constructor(
         savedStateHandle.get<Int>("playlistWithSongsId")?.let { playlistId ->
             println("playlistWithSongsId: " + playlistId)
             if(playlistId != -1) {
+                _state.value = state.value.copy(
+                    currentPlaylistId = playlistId
+                )
                 loadPlaylistSongs(playlistId)
             }
         }
@@ -53,6 +56,27 @@ class PlaylistDetailViewModel @Inject constructor(
 
     init {
         loadAllSongs()
+
+        viewModelScope.launch {
+            playerEventListener.state.collectLatest { playerState ->
+                when (playerState) {
+                    is PlayerState.CurrentlyPlaying -> {
+                        println("event listener currently playing idx " + playerState.mediaItemIdx)
+                        _state.value = state.value.copy(
+                            currentlySelectedSong = state.value.songs[playerState.mediaItemIdx],
+                        )
+                    }
+                    is PlayerState.Playing -> {
+                        _state.value = state.value.copy(
+                            isPlaying = playerState.isPlaying
+                        )
+                    }
+                    else -> {
+
+                    }
+                }
+            }
+        }
     }
 
     private fun loadPlaylistSongs(id: Int) {
@@ -77,8 +101,18 @@ class PlaylistDetailViewModel @Inject constructor(
                         is Resource.Success -> {
                             _state.value = state.value.copy(
                                 playlistWithSongs = result.data ?: PlaylistWithSongs(Playlist(), emptyList()),
-                                isLoading = false
+                                isLoading = false,
+                                isPlaying = playerEventListener.exoPlayer.isPlaying,
                             )
+
+                            result.data?.songs?.forEach {
+                                if (it.mediaId == playerEventListener.exoPlayer.currentMediaItem?.mediaId) {
+                                    _state.value = state.value.copy(
+                                        currentlySelectedSong = it
+                                    )
+                                }
+                            }
+
                         }
                     }
                 }.launchIn(this)

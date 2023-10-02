@@ -8,6 +8,7 @@ import androidx.media3.common.Player
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.ui.PlayerNotificationManager
 
+// Source: https://github.com/Hoodlab/Jet_Audio/tree/final
 class MusicNotificationAdapter(
     val context: Context,
     val pendingIntent: PendingIntent?
@@ -33,3 +34,4 @@ class MusicNotificationAdapter(
         return null
     }
 }
+// Source: https://github.com/Hoodlab/Jet_Audio/tree/final

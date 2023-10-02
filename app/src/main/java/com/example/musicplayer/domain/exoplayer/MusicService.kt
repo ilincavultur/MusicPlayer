@@ -14,6 +14,7 @@ import com.google.common.util.concurrent.MoreExecutors
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
+// Source: https://github.com/Hoodlab/Jet_Audio/tree/final
 @AndroidEntryPoint
 class MusicService : MediaSessionService() {
 
@@ -85,3 +86,4 @@ class MusicService : MediaSessionService() {
         const val ACTION_STOP = "ACTION_STOP"
     }
 }
+// Source: https://github.com/Hoodlab/Jet_Audio/tree/final

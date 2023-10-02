@@ -6,6 +6,7 @@ import com.example.musicplayer.domain.models.Song
 
 data class PlaylistDetailState(
     var isLoading: Boolean = false,
+    val currentPlaylistId: Int = -1,
     val playlistWithSongs: PlaylistWithSongs = PlaylistWithSongs(Playlist(), emptyList()),
     val songs: List<Song> = emptyList(),
     var duration: Long = 0,

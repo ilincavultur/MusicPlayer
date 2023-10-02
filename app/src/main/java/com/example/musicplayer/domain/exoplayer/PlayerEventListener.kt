@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import javax.inject.Inject
 import kotlin.time.Duration.Companion.seconds
 
+// Source: https://github.com/Hoodlab/Jet_Audio/tree/final
 class PlayerEventListener @Inject constructor(
     val exoPlayer: ExoPlayer
 ) : Player.Listener {
@@ -64,6 +65,7 @@ class PlayerEventListener @Inject constructor(
 
     private suspend fun startProgressUpdate() = progressJob.run {
         while (true) {
+            //delay(5000)
             delay(1.seconds / 30)
             //println("exoPlayer.currentPosition " + exoPlayer.currentPosition)
             _state.value = PlayerState.Progress(exoPlayer.currentPosition)
@@ -83,13 +85,10 @@ class PlayerEventListener @Inject constructor(
     suspend fun onEvent(event: PlayerEvent) {
         when(event) {
             PlayerEvent.Backward -> {
-
-                //mainViewModel.seekTo(if (exoPlayer.currentPosition - 10 * 1000f < 0) 0f else exoPlayer.currentPosition - 10 * 1000f)
                 println("exoPlayer.seekBackIncrement " + exoPlayer.seekBackIncrement)
                 exoPlayer.seekTo((if (exoPlayer.currentPosition - 10 * 1000f < 0) 0f else exoPlayer.currentPosition - 10 * 1000f).toLong())
             }
             PlayerEvent.Forward -> {
-                //mainViewModel.seekTo(currentPosition + 10 * 1000f)
                 exoPlayer.seekTo((exoPlayer.currentPosition + 10 * 1000f).toLong())
             }
             PlayerEvent.PlayPause -> {
@@ -107,40 +106,24 @@ class PlayerEventListener @Inject constructor(
                 exoPlayer.seekTo(event.seekPos)
             }
             is PlayerEvent.SelectAudio -> {
-//                when(event.selectedMediaIdx) {
-//                    exoPlayer.currentMediaItemIndex -> {
-//                        playPause()
-//                    }
-//                    else -> {
-                        val count = exoPlayer.mediaItemCount
+                val count = exoPlayer.mediaItemCount
 
-
-                        for (i in 0 until count) {
-                            val mediaItem = exoPlayer.getMediaItemAt(i)
-                            if(mediaItem.mediaId.toInt() == event.mediaId) {
-                                if (exoPlayer.currentMediaItemIndex == i) {
-                                    playPause()
-                                } else {
-                                    // do whatever you want with media
-
-                                    // you can also use the index i as a starting point
-                                    // to delete all previous items or to move the i-th item to
-                                    // the first position of the playlist with moveMediaItem
-                                    println("event.selectedMediaIdx " + event.selectedMediaIdx)
-                                    println("event.selectedMediaIdx pos i " + i)
-                                    exoPlayer.seekToDefaultPosition(i)
-                                    //exoPlayer.seekToDefaultPosition(event.selectedMediaIdx)
-                                    _state.value = PlayerState.Playing(isPlaying = true)
-                                    exoPlayer.playWhenReady = true
-                                    startProgressUpdate()
-                                    break;
-                                }
-                            }
+                for (i in 0 until count) {
+                    val mediaItem = exoPlayer.getMediaItemAt(i)
+                    if(mediaItem.mediaId.toInt() == event.mediaId) {
+                        if (exoPlayer.currentMediaItemIndex == i) {
+                            playPause()
+                        } else {
+                            println("event.selectedMediaIdx " + event.selectedMediaIdx)
+                            println("event.selectedMediaIdx pos i " + i)
+                            exoPlayer.seekToDefaultPosition(i)
+                            _state.value = PlayerState.Playing(isPlaying = true)
+                            exoPlayer.playWhenReady = true
+                            startProgressUpdate()
+                            break;
                         }
-
-
-                  //  }
-                //}
+                    }
+                }
             }
             PlayerEvent.SkipToPrevious -> {
                 val prevIdx = exoPlayer.currentMediaItemIndex - 1
@@ -174,3 +157,4 @@ class PlayerEventListener @Inject constructor(
         }
     }
 }
+// Source: https://github.com/Hoodlab/Jet_Audio/tree/final

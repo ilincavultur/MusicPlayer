@@ -86,7 +86,7 @@ fun PlaylistDetailScreen(
                             itemsIndexed(playlist.songs) { index, song ->
                                 SongListCard(song, modifier = Modifier.fillMaxSize(), onSongCardClick = { songId ->
                                     viewModel.onEvent(PlaylistDetailEvent.SelectAudio(index, songId))
-                                }, isPlaying = state.isPlaying && state.currentlySelectedSong == song)
+                                }, isPlaying = state.isPlaying && state.currentlySelectedSong == song) //&& state.currentlySelectedSong == song
                                 Divider(color = EerieBlackLightTransparent)
                             }
                         }

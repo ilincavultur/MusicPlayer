@@ -20,6 +20,7 @@ import com.example.musicplayer.R
 import com.example.musicplayer.domain.exoplayer.MusicService
 import javax.inject.Inject
 
+// Source: https://github.com/Hoodlab/Jet_Audio/tree/final
 class MusicNotificationManager @Inject constructor(
     val context: Context,
     val exoPlayer: ExoPlayer
@@ -84,6 +85,5 @@ class MusicNotificationManager @Inject constructor(
 
     }
 
-
-
 }
+// Source: https://github.com/Hoodlab/Jet_Audio/tree/final
