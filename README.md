@@ -1,25 +1,13 @@
 # MusicPlayer
 
-<img src="https://github.com/ilincavultur/MusicPlayer/assets/41162207/877633a3-5c0d-43ad-ac51-e21e958561cc" width="400" height="800">
-
-<img src="https://github.com/ilincavultur/MusicPlayer/assets/41162207/a607b0fe-7537-4707-b8bc-23f421d41946" width="400" height="800">
-
-<img src="https://github.com/ilincavultur/MusicPlayer/assets/41162207/e9bad9be-b00c-4654-ae6a-5ac8874abffc" width="400" height="800">
-
-<img src="https://github.com/ilincavultur/MusicPlayer/assets/41162207/3ef8428a-731a-48c1-ad3f-ceb0c1c4ac0c" width="400" height="800">
-
-<img src="https://github.com/ilincavultur/MusicPlayer/assets/41162207/f7d8fff8-bf11-4e69-9e49-7f3c0c10fa04" width="400" height="800">
-
-<img src="https://github.com/ilincavultur/MusicPlayer/assets/41162207/43506907-b6bc-4331-b672-b6d5a6b30fd5" width="400" height="800">
-
-<img src="https://github.com/ilincavultur/MusicPlayer/assets/41162207/4203b8b2-2e4e-443b-9410-5f76594956a4" width="400" height="800">
-
-<img src="https://github.com/ilincavultur/MusicPlayer/assets/41162207/fa00754b-7edc-46dd-b4cd-9dca183f6652" width="400" height="800">
-
-<img src="https://github.com/ilincavultur/MusicPlayer/assets/41162207/49c3c734-be26-43f8-af8e-012def657fce" width="400" height="800">
-
-<img src="https://github.com/ilincavultur/MusicPlayer/assets/41162207/ac36104e-0349-439a-8c9d-3cb2a784b969" width="400" height="800">
-
-<img src="https://github.com/ilincavultur/MusicPlayer/assets/41162207/e1f7cc1c-c0dd-4d5a-b50f-21b4b3f183b0" width="400" height="800">
-
-
+![Screenshot_20230929_123159_MusicPlayer](https://github.com/ilincavultur/MusicPlayer/assets/41162207/106cc684-e5de-45a5-8af8-b8f658eaa5df)
+![Screenshot_20230929_123210_MusicPlayer](https://github.com/ilincavultur/MusicPlayer/assets/41162207/ef561665-7656-40b5-96ab-4b740f334a1b)
+![Screenshot_20230929_123218_MusicPlayer](https://github.com/ilincavultur/MusicPlayer/assets/41162207/6491a4df-5d32-4c06-ac9a-0fc99ef8c57d)
+![Screenshot_20230929_124430_MusicPlayer](https://github.com/ilincavultur/MusicPlayer/assets/41162207/7809fb5c-164d-41a4-b39c-b428520c190e)
+![Screenshot_20230929_124511_MusicPlayer](https://github.com/ilincavultur/MusicPlayer/assets/41162207/62752d78-3288-4ab8-ac82-6f1b2cb9c761)
+![Screenshot_20231002_141505_MusicPlayer](https://github.com/ilincavultur/MusicPlayer/assets/41162207/859685e1-ea11-40b8-a955-aa4c37d0f374)
+![Screenshot_20230929_124525_MusicPlayer](https://github.com/ilincavultur/MusicPlayer/assets/41162207/8953f042-f203-46eb-a156-5a2aa1687a1d)
+![Screenshot_20230929_124532_MusicPlayer](https://github.com/ilincavultur/MusicPlayer/assets/41162207/d3390cb3-bbbc-4a0e-b8de-1b0a3a202017)
+![Screenshot_20230929_124545_MusicPlayer](https://github.com/ilincavultur/MusicPlayer/assets/41162207/eadf8c52-f7d8-4e1b-8062-f07ec377b844)
+![Screenshot_20230929_124557_MusicPlayer](https://github.com/ilincavultur/MusicPlayer/assets/41162207/f9c9237b-66a2-4338-81e5-d9749732d9ec)
+![Screenshot_20230929_124631_MusicPlayer](https://github.com/ilincavultur/MusicPlayer/assets/41162207/d6aa8b41-8e29-4a71-a4bd-82c3304dc8c8)
